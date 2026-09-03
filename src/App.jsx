@@ -1,38 +1,122 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { data } from './data'
 import ReactMarkdown from 'react-markdown'
 import './App.css'
 
+const SECTION_ICONS = {
+  0: '📖',
+  1: '⚔️',
+  2: '🏛️',
+  3: '🗺️',
+  4: '👤',
+  5: '☠️',
+  6: '🔮',
+}
+
 function App() {
   const [lang, setLang] = useState('th')
-
-  const toggleLang = () => {
-    setLang(lang === 'en' ? 'th' : 'en')
-  }
+  const [activeIdx, setActiveIdx] = useState(0)
+  const [navOpen, setNavOpen] = useState(false)
+  const sectionRefs = useRef([])
 
   const content = data[lang]
 
+  const scrollTo = (idx) => {
+    sectionRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setActiveIdx(idx)
+    setNavOpen(false)
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = sectionRefs.current.indexOf(entry.target)
+            if (idx !== -1) setActiveIdx(idx)
+          }
+        })
+      },
+      { rootMargin: '-30% 0px -60% 0px' }
+    )
+    sectionRefs.current.forEach((el) => el && observer.observe(el))
+    return () => observer.disconnect()
+  }, [content])
+
   return (
-    <div className={`app-container ${lang === 'th' ? 'lang-th' : ''}`}>
-      <header>
-        <h1>{content.title}</h1>
-        <button className="lang-toggle" onClick={toggleLang}>
+    <div className={`layout ${lang === 'th' ? 'lang-th' : ''}`}>
+      {/* Sidebar */}
+      <nav className={`sidebar ${navOpen ? 'open' : ''}`}>
+        <div className="sidebar-brand">
+          <span className="brand-year">1577</span>
+          <span className="brand-name">SOULPUNK</span>
+        </div>
+        <ul className="nav-list">
+          {content.sections.map((sec, i) => (
+            <li key={i}>
+              <button
+                className={`nav-item ${activeIdx === i ? 'active' : ''}`}
+                onClick={() => scrollTo(i)}
+              >
+                <span className="nav-icon">{SECTION_ICONS[i] || '◆'}</span>
+                <span className="nav-label">{sec.title}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <button
+          className="lang-toggle"
+          onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
+        >
           {lang === 'en' ? '🇹🇭 ภาษาไทย' : '🇬🇧 English'}
+        </button>
+      </nav>
+
+      {/* Mobile header */}
+      <header className="mobile-header">
+        <button className="hamburger" onClick={() => setNavOpen(!navOpen)} aria-label="Toggle menu">
+          <span /><span /><span />
+        </button>
+        <span className="mobile-title">SOULPUNK <em>1577</em></span>
+        <button
+          className="lang-toggle-mobile"
+          onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
+        >
+          {lang === 'en' ? '🇹🇭' : '🇬🇧'}
         </button>
       </header>
 
-      <main>
-        <p className="intro">{content.intro}</p>
+      {navOpen && <div className="nav-overlay" onClick={() => setNavOpen(false)} />}
 
+      {/* Main content */}
+      <main className="content">
+        {/* Hero */}
+        <div className="hero">
+          <p className="hero-era">SOVEREIGN GRID OF VAEL · 1577 DR</p>
+          <h1 className="hero-title">{content.title}</h1>
+          <p className="hero-intro">{content.intro}</p>
+        </div>
+
+        {/* Sections */}
         {content.sections.map((section, idx) => (
-          <section key={idx} className="playbook-section">
-            <h2>{section.title}</h2>
-            {section.content && <p>{section.content}</p>}
-            
+          <section
+            key={idx}
+            className="playbook-section"
+            ref={(el) => (sectionRefs.current[idx] = el)}
+          >
+            <div className="section-header">
+              <span className="section-icon">{SECTION_ICONS[idx] || '◆'}</span>
+              <h2>{section.title}</h2>
+            </div>
+
+            {section.content && <p className="section-lead">{section.content}</p>}
+
             {section.list && (
-              <ul>
+              <ul className="entry-list">
                 {section.list.map((item, i) => (
-                  <li key={i}><ReactMarkdown>{item}</ReactMarkdown></li>
+                  <li key={i}>
+                    <ReactMarkdown>{item}</ReactMarkdown>
+                  </li>
                 ))}
               </ul>
             )}
@@ -42,9 +126,11 @@ function App() {
                 <h3>{sub.title}</h3>
                 {sub.content && <p>{sub.content}</p>}
                 {sub.list && (
-                  <ul>
+                  <ul className="entry-list">
                     {sub.list.map((item, i) => (
-                      <li key={i}><ReactMarkdown>{item}</ReactMarkdown></li>
+                      <li key={i}>
+                        <ReactMarkdown>{item}</ReactMarkdown>
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -52,11 +138,11 @@ function App() {
             ))}
           </section>
         ))}
+
+        <footer>
+          <p>Soulpunk 1577 · D&amp;D 5e (2014) Campaign Setting</p>
+        </footer>
       </main>
-      
-      <footer>
-        <p>Soulpunk 1577 Campaign Guide</p>
-      </footer>
     </div>
   )
 }
