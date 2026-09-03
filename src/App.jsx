@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import './App.css'
 
 function App() {
-  const [lang, setLang] = useState('en')
+  const [lang, setLang] = useState('th')
 
   const toggleLang = () => {
     setLang(lang === 'en' ? 'th' : 'en')
