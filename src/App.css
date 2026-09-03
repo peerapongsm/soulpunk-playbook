@@ -1,0 +1,98 @@
+:root {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --accent-color: #ff2a2a;
+  --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.lang-th {
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  color: var(--accent-color);
+  margin: 0;
+  font-size: 2rem;
+}
+
+.lang-toggle {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.lang-toggle:hover {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+}
+
+.intro {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 40px;
+}
+
+.playbook-section {
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border-left: 4px solid var(--accent-color);
+}
+
+.playbook-section h2 {
+  margin-top: 0;
+  color: #fff;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+.subsection h3 {
+  color: #ddd;
+  margin-top: 20px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li p {
+  margin: 0;
+}
+
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #444;
+  color: #888;
+}
