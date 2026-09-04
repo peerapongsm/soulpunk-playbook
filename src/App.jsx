@@ -69,7 +69,11 @@ function App() {
 
   const content = data[lang]
   const sections = [...content.sections.slice(0, 6), ...extraSections]
-  const subsections = (section, idx) => lang === 'th' && idx === 4 ? thaiNpcs : section.subsections
+  const subsections = (section, idx) => {
+    if (lang === 'th' && idx === 4) return thaiNpcs
+    if (lang === 'th' && idx === 1) return section.subsections.map((sub, i) => ({ ...sub, title: ['Corporate Drone', 'Ethereal Soulhacker', 'Bleed Scavenger'][i] }))
+    return section.subsections
+  }
 
   const scrollTo = (idx) => {
     sectionRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
