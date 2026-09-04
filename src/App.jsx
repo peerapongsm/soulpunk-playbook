@@ -33,8 +33,17 @@ const characterSheets = [
   ['ilyra', 'Ilyra Moss', 'Wood Elf Ranger 3', 'Bleed Scavenger', '10 (+0), 16 (+3), 14 (+2), 10 (+0), 14 (+2), 10 (+0)', 'AC 15 · HP 25 · Speed 35 ft · HD 3d10 · Initiative +3', 'Str +2, Dex +5', 'Nature +2, Perception +4, Stealth +5, Survival +4', 'Longbow +5 (1d8+3); shortsword +5 (1d6+3)', 'Favored Enemy: aberrations; Natural Explorer: The Bleed; Hunter’s Prey: Colossus Slayer', 'Studded leather, longbow, 20 arrows, two shortswords, explorer pack, storm compass', 'Quietly observant. Ideal: endure. Bond: an impossible route through The Bleed. Flaw: sleeps with one eye open.'],
   ['jun', 'Jun Vale', 'Human Monk 3', 'Faraday Order', '10 (+0), 16 (+3), 14 (+2), 10 (+0), 14 (+2), 12 (+1)', 'AC 15 · HP 24 · Speed 40 ft · HD 3d8 · Initiative +3', 'Str +2, Dex +5', 'Acrobatics +5, Athletics +2, Insight +4, Stealth +5', 'Unarmed Strike +5 (1d4+3); quarterstaff +5 (1d6+3)', 'Martial Arts; Ki 3; Flurry of Blows; Patient Defense; Step of the Wind; Way of the Open Hand', 'Quarterstaff, 10 darts, explorer pack, Faraday prayer beads', 'Calm under fire. Ideal: discipline. Bond: a rogue signal. Flaw: mistakes restraint for wisdom.']
 ]
+const levelFive = {
+  'Aster Vane': { klass: 'Human Fighter 5', combat: 'AC 18 · HP 44 · Speed 30 ft · HD 5d10 · Initiative +2', attacks: 'Longsword +6 (1d8+3 slashing, two attacks); light crossbow +5 (1d8+2 piercing)', features: 'Second Wind; Action Surge; Champion: Improved Critical; Extra Attack' },
+  'Nyx Arclight': { klass: 'High Elf Wizard 5', combat: 'AC 13 · HP 27 · Speed 30 ft · HD 5d6 · Initiative +2', attacks: 'Dagger +5 (1d4+2); Fire Bolt +6 (2d10 fire)', features: 'Arcane Recovery; School of Divination: Portent (2d20); Spellbook: Fireball, Counterspell, and Blink (3rd level)' },
+  'Sable Thorn': { klass: 'Tiefling Warlock 5', combat: 'AC 14 · HP 38 · Speed 30 ft · HD 5d8 · Initiative +2', attacks: 'Eldritch Blast +6 (2 beams, 1d10+3 force each); dagger +5 (1d4+2)', features: 'Pact Magic (2 level-3 slots); Agonizing Blast; Devil’s Sight; Pact of the Chain' },
+  'Brother Ash': { klass: 'Dwarf Cleric 5', combat: 'AC 17 · HP 43 · Speed 25 ft · HD 5d8 · Initiative +0', attacks: 'Warhammer +5 (1d8+2); Sacred Flame DC 14 (2d8 radiant)', features: 'Spellcasting (3rd-level spells); Channel Divinity: Preserve Life; Life Domain; Destroy Undead CR 1/2' },
+  'Kestrel': { klass: 'Half-Orc Rogue 5', combat: 'AC 15 · HP 38 · Speed 30 ft · HD 5d8 · Initiative +3', attacks: 'Rapier +6 (1d8+3 + 3d6 Sneak Attack); shortbow +6 (1d6+3)', features: 'Expertise: Stealth, Deception; Cunning Action; Uncanny Dodge; Sneak Attack 3d6' },
+  'Ilyra Moss': { klass: 'Wood Elf Ranger 5', combat: 'AC 15 · HP 40 · Speed 35 ft · HD 5d10 · Initiative +3', attacks: 'Longbow +6 (1d8+3, two attacks); shortsword +6 (1d6+3)', features: 'Favored Enemy: aberrations; Natural Explorer: The Bleed; Hunter’s Prey: Colossus Slayer; Extra Attack; 2nd-level spells' },
+  'Jun Vale': { klass: 'Human Monk 5', combat: 'AC 15 · HP 38 · Speed 40 ft · HD 5d8 · Initiative +3', attacks: 'Unarmed Strike +6 (1d6+3, two attacks); quarterstaff +6 (1d6+3)', features: 'Martial Arts; Ki 5; Flurry of Blows; Patient Defense; Step of the Wind; Extra Attack; Stunning Strike; Way of the Open Hand' }
+}
 const extraSections = [
-  { title: 'Pre-generated Characters', content: 'Seven level-3 characters ready to enter Eden. Choose one, take the listed hooks, and play.', cards: [
+  { title: 'Pre-generated Characters', content: 'Seven level-5 characters ready to enter Eden. Choose one, take the listed hooks, and play.', cards: [
     ['aster', 'Aster Vane', 'Human Fighter 3 · No-Coin Courier', 'AC 18 · HP 28 · STR 16 · DEX 14', 'A former dome-runner carrying a gold comm-stone that proves a Patron is stealing soul shares.'],
     ['nyx', 'Nyx Arclight', 'High Elf Wizard 3 · Soulhacker', 'AC 13 · HP 17 · INT 16 · Spell Save DC 13', 'A contract-code prodigy whose stolen access key opens a locked Ethereal vault.'],
     ['sable', 'Sable Thorn', 'Tiefling Warlock 3 · Corporate Defector', 'AC 14 · HP 24 · CHA 16 · Spell Save DC 13', 'Her Patron wants her back; the price of freedom is a single impossible job.'],
@@ -190,7 +199,7 @@ function App() {
               ))}
             </div>}
             {idx === 6 && <div className="sheet-list">{characterSheets.map(([image, name, klass, background, abilities, combat, saves, skills, attacks, features, equipment, story]) => (
-              <article className="character-sheet" key={name}><img src={art[image]} alt={name} /><div><h3>{name}</h3><p className="dossier-role">{klass} · {background}</p><p><strong>Abilities:</strong> {abilities}</p><p><strong>Combat:</strong> {combat}</p><p><strong>Saving Throws:</strong> {saves}</p><p><strong>Skills:</strong> {skills}</p><p><strong>Attacks:</strong> {attacks}</p><p><strong>Features:</strong> {features}</p><p><strong>Equipment:</strong> {equipment}</p><p><strong>Character:</strong> {story}</p></div></article>
+              <article className="character-sheet" key={name}><img src={art[image]} alt={name} /><div><h3>{name}</h3><p className="dossier-role">{levelFive[name].klass} · {background}</p><p><strong>Abilities:</strong> {abilities}</p><p><strong>Combat:</strong> {levelFive[name].combat}</p><p><strong>Saving Throws:</strong> {saves}</p><p><strong>Skills:</strong> {skills}</p><p><strong>Attacks:</strong> {levelFive[name].attacks}</p><p><strong>Features:</strong> {levelFive[name].features}</p><p><strong>Equipment:</strong> {equipment}</p><p><strong>Character:</strong> {story}</p></div></article>
             ))}</div>}
 
             {idx === 0 && (
@@ -223,6 +232,7 @@ function App() {
                     <img src={art[sub.art]} alt={sub.title} />
                   </figure>
                 )}
+                {sub.art === 'ethereal' && <p><strong>Blink (3rd-level spell):</strong> {lang === 'en' ? 'Wizards use it for quick, unstable Ethereal access. It returns them near their entry point, so Oil of Etherealness remains the reliable route.' : 'Wizard ใช้เข้า Ethereal แบบรวดเร็วแต่ไม่เสถียร และจะกลับมาใกล้จุดที่เข้าไป จึงยังต้องใช้ Oil of Etherealness สำหรับเส้นทางที่แน่นอน'}</p>}
                 {sub.art === 'ethereal' && lang === 'th' && <p><strong>Oil of Etherealness (Uncommon):</strong> ใช้เข้าและออกจาก The Ethereal ได้</p>}
                 {sub.list && (
                   <ul className="entry-list">
