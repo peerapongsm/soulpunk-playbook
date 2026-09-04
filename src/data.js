@@ -104,6 +104,22 @@ export const data = {
           "**Ethereal Projector (Wondrous Item, Rare):** An intricately carved arcane helm or amulet used by Soulhackers. While wearing it, you can cast *Scrying* (save DC 15) once per day without material components, but the target must be someone who is currently logged into the Ethereal network. If the target succeeds on their saving throw, you take 3d6 psychic damage as Corporate ICE shocks your mind.",
           "**Contractor's Branding Iron (Wondrous Item, Uncommon):** A heavy iron rod inscribed with glowing infernal runes. As an action, you can make a melee spell attack (+5 to hit) against a creature. On a hit, the creature takes 1d4 fire damage and is branded with a magical sigil for 24 hours. While the brand lasts, you know the exact direction and distance to the creature as long as you are on the same plane of existence."
         ]
+      },
+      {
+        title: "Street Slang Directory",
+        list: [
+          "**The Ethereal:** The Border Ethereal plane colonized by Patrons as the ultimate arcane network. Minds project here for data and contracts.",
+          "**Gear:** Physical, magical, or technological enhancements.",
+          "**Projector:** An illegal arcane focus used to force consciousness into the Ethereal without a corporate login.",
+          "**Gloom Stalker:** Corporate security—repurposed Rangers and bound demons—patrolling the Ethereal. They sever hackers' minds.",
+          "**Soulhacker:** Wizards and rogue Artificers diving into the Ethereal to rewrite contracts and steal data.",
+          "**Cleric:** Underground back-alley surgeons and rebel priests using untraceable divine magic.",
+          "**Hex Blade:** Corporate assassins or elite street mercenaries with weapons bound to their soul-contracts.",
+          "**Fixer:** Underworld brokers and middlemen.",
+          "**Soulless:** A derogatory term for corporate drones who have leased 100% of their soul shares.",
+          "**Out of coin:** To die. When someone dies, their Patron immediately cashes in all remaining soul shares.",
+          "**Gold:** Used for anything anonymous or disposable, such as a gold comm-stone, because GP is untraceable."
+        ]
       }
     ]
   },
@@ -211,6 +227,22 @@ export const data = {
           "**Soul-Siphon Blade (Weapon, ดาบทุกชนิด, Uncommon, Requires Attunement):** ดาบออบซิเดียนรอยหยักของ The Infernal Syndicate เมื่อทอยโจมตีได้ 20 เป้าหมายรับความเสียหาย necrotic เพิ่ม 2d6 และคุณได้รับ HP ชั่วคราวเท่ากับความเสียหาย necrotic ที่ทำได้",
           "**Ethereal Projector (Wondrous Item, Rare):** หมวกหรือเครื่องรางเวทของ Soulhacker ขณะสวมใส่ คุณร่าย Scrying (save DC 15) ได้วันละครั้งโดยไม่ใช้วัตถุดิบ แต่เป้าหมายต้องกำลังเชื่อมต่อ Ethereal หากเป้าหมายเซฟผ่าน คุณรับความเสียหาย psychic 3d6 จาก ICE ขององค์กรที่ช็อตจิตคุณ",
           "**Contractor's Branding Iron (Wondrous Item, Uncommon):** แท่งเหล็กหนักสลักรูนปีศาจเรืองแสง ใช้แอ็กชันโจมตีเวทระยะประชิด (+5 to hit) เมื่อโดน เป้าหมายรับความเสียหาย fire 1d4 และถูกตีตราเวท 24 ชั่วโมง ระหว่างนั้นคุณรู้ทิศและระยะห่างของเป้าหมายได้ ตราบใดที่อยู่ในมิติเดียวกัน"
+        ]
+      },
+      {
+        title: "Street Slang Directory",
+        list: [
+          "**The Ethereal:** The Border Ethereal plane colonized by Patrons as the ultimate arcane network. Minds project here for data and contracts.",
+          "**Gear:** Physical, magical, or technological enhancements.",
+          "**Projector:** An illegal arcane focus used to force consciousness into the Ethereal without a corporate login.",
+          "**Gloom Stalker:** Corporate security—repurposed Rangers and bound demons—patrolling the Ethereal. They sever hackers' minds.",
+          "**Soulhacker:** Wizards and rogue Artificers diving into the Ethereal to rewrite contracts and steal data.",
+          "**Cleric:** Underground back-alley surgeons and rebel priests using untraceable divine magic.",
+          "**Hex Blade:** Corporate assassins or elite street mercenaries with weapons bound to their soul-contracts.",
+          "**Fixer:** Underworld brokers and middlemen.",
+          "**Soulless:** A derogatory term for corporate drones who have leased 100% of their soul shares.",
+          "**Out of coin:** To die. When someone dies, their Patron immediately cashes in all remaining soul shares.",
+          "**Gold:** Used for anything anonymous or disposable, such as a gold comm-stone, because GP is untraceable."
         ]
       }
     ]
