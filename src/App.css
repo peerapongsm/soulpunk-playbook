@@ -85,6 +85,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .dossier-card p { margin: 0.6rem 0 0; color: var(--ink-muted); }
 .dossier-role { color: var(--parchment) !important; }
 .dossier-sheet { color: var(--amber) !important; font-size: 0.85rem; }
+.sheet-list { display: grid; gap: 1.5rem; margin-top: 2rem; }
+.character-sheet { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 1.25rem; padding: 1.25rem; border: 1px solid var(--border); background: var(--surface); break-inside: avoid; }
+.character-sheet > img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.character-sheet h3 { margin: 0; color: var(--amber); font-family: var(--font-display); }
+.character-sheet p { margin: 0.45rem 0 0; color: var(--ink-muted); }
 footer { margin-top: 6rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--ink-muted); font-size: 0.78rem; letter-spacing: 0.05em; text-align: center; }
 
 @media (max-width: 48rem) {
@@ -111,7 +116,9 @@ footer { margin-top: 6rem; padding-top: 1.5rem; border-top: 1px solid var(--bord
   .entry-list li { padding: 0.9rem 0.9rem 0.9rem 1rem; }
   .subsection { margin-top: 1.5rem; padding: 1.15rem; }
   .npc-card, .dossier-card { grid-template-columns: 1fr; }
+  .character-sheet { grid-template-columns: 1fr; }
   .npc-card h3, .npc-card p, .npc-card .npc-facts, .npc-card .setting-art { grid-column: 1; grid-row: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
+@media print { .sidebar, .mobile-header, .nav-overlay, .skip-link { display: none !important; } .content { width: 100%; margin: 0; padding: 0; } .hero, .playbook-section { break-inside: avoid; } .character-sheet { page-break-inside: avoid; border-color: #555; } }
