@@ -198,7 +198,7 @@ function App() {
                 </article>
               ))}
             </div>}
-            {idx === 6 && <div className="sheet-list">{characterSheets.map(([image, name, klass, background, abilities, combat, saves, skills, attacks, features, equipment, story]) => (
+            {idx === 6 && <div className="sheet-list">{characterSheets.map(([image, name, , background, abilities, , saves, skills, , , equipment, story]) => (
               <article className="character-sheet" key={name}><img src={art[image]} alt={name} /><div><h3>{name}</h3><p className="dossier-role">{levelFive[name].klass} · {background}</p><p><strong>Abilities:</strong> {abilities}</p><p><strong>Combat:</strong> {levelFive[name].combat}</p><p><strong>Saving Throws:</strong> {saves}</p><p><strong>Skills:</strong> {skills}</p><p><strong>Attacks:</strong> {levelFive[name].attacks}</p><p><strong>Features:</strong> {levelFive[name].features}</p><p><strong>Equipment:</strong> {equipment}</p><p><strong>Character:</strong> {story}</p></div></article>
             ))}</div>}
 
