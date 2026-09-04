@@ -6,13 +6,13 @@ import soulcoinContract from './assets/soulcoin-contract.png'
 import edenLocation from './assets/eden-location.png'
 import bleedLocation from './assets/bleed-location.png'
 import etherealLocation from './assets/ethereal-location.png'
-import glitch from './assets/npc-glitch.png'
 import valeriusV2 from './assets/npc-valerius-v2.png'
 import willowV2 from './assets/npc-willow-v2.png'
-import kael from './assets/npc-kael.png'
-import voss from './assets/npc-voss.png'
-import echo9 from './assets/npc-echo9.png'
-import mara from './assets/npc-mara.png'
+import glitchV2 from './assets/npc-glitch-v2.png'
+import kaelV2 from './assets/npc-kael-v2.png'
+import vossV2 from './assets/npc-voss-v2.png'
+import echo9V2 from './assets/npc-echo9-v2.png'
+import maraV2 from './assets/npc-mara-v2.png'
 import aster from './assets/preg-aster.png'
 import nyx from './assets/preg-nyx.png'
 import sable from './assets/preg-sable.png'
@@ -22,7 +22,7 @@ import ilyra from './assets/preg-ilyra.png'
 import jun from './assets/preg-jun.png'
 import './App.css'
 
-const art = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation, glitch, valerius: valeriusV2, willow: willowV2, kael, voss, echo9, mara, aster, nyx, sable, ash, kestrel, ilyra, jun }
+const art = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation, glitch: glitchV2, valerius: valeriusV2, willow: willowV2, kael: kaelV2, voss: vossV2, echo9: echo9V2, mara: maraV2, aster, nyx, sable, ash, kestrel, ilyra, jun }
 const npcDetails = { glitch: ['Deep Network', '29', 'Yuan-ti'], valerius: ['Infernal Syndicate', '46', 'Dragonborn'], willow: ['Archfey Conglomerate', 'Unknown', 'Satyr'], kael: ['The Disconnect', '58', 'Earth Genasi'], voss: ['Celestial Vanguard', '34', 'Aasimar'], echo9: ['Deep Network', 'Unknown', 'Changeling'], mara: ['No-Coin', '27', 'Goliath'] }
 const characterSheets = [
   ['aster', 'Aster Vane', 'Human Fighter 3', 'No-Coin Courier', '16 (+3), 14 (+2), 14 (+2), 10 (+0), 12 (+1), 8 (-1)', 'AC 18 · HP 28 · Speed 30 ft · HD 3d10 · Initiative +2', 'Str +5, Con +4', 'Athletics +5, Intimidation +1, Perception +3, Survival +3', 'Longsword +5 (1d8+3 slashing); light crossbow +4 (1d8+2 piercing)', 'Second Wind; Action Surge; Champion: Improved Critical', 'Chain mail, shield, longsword, crossbow, 20 bolts, explorer pack, gold comm-stone', 'Direct and unsentimental. Ideal: freedom. Bond: exposes stolen soul shares. Flaw: never leaves a debt unpaid.'],
