@@ -45,8 +45,9 @@ function App() {
 
   return (
     <div className={`layout ${lang === 'th' ? 'lang-th' : ''}`}>
+      <a className="skip-link" href="#guide-content">Skip to guide</a>
       {/* Sidebar */}
-      <nav className={`sidebar ${navOpen ? 'open' : ''}`}>
+      <nav id="guide-navigation" className={`sidebar ${navOpen ? 'open' : ''}`} aria-label="Campaign guide sections">
         <div className="sidebar-brand">
           <span className="brand-year">1577</span>
           <span className="brand-name">SOULPUNK</span>
@@ -67,6 +68,7 @@ function App() {
         <button
           className="lang-toggle"
           onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
+          aria-label={lang === 'en' ? 'Switch to Thai' : 'Switch to English'}
         >
           {lang === 'en' ? '🇹🇭 ภาษาไทย' : '🇬🇧 English'}
         </button>
@@ -74,13 +76,20 @@ function App() {
 
       {/* Mobile header */}
       <header className="mobile-header">
-        <button className="hamburger" onClick={() => setNavOpen(!navOpen)} aria-label="Toggle menu">
+        <button
+          className="hamburger"
+          onClick={() => setNavOpen(!navOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={navOpen}
+          aria-controls="guide-navigation"
+        >
           <span /><span /><span />
         </button>
         <span className="mobile-title">SOULPUNK <em>1577</em></span>
         <button
           className="lang-toggle-mobile"
           onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
+          aria-label={lang === 'en' ? 'Switch to Thai' : 'Switch to English'}
         >
           {lang === 'en' ? '🇹🇭' : '🇬🇧'}
         </button>
@@ -89,7 +98,7 @@ function App() {
       {navOpen && <div className="nav-overlay" onClick={() => setNavOpen(false)} />}
 
       {/* Main content */}
-      <main className="content">
+      <main className="content" id="guide-content">
         {/* Hero */}
         <div className="hero">
           <p className="hero-era">SOVEREIGN GRID OF VAEL · 1577 DR</p>
