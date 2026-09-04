@@ -5,16 +5,6 @@ import edenHero from './assets/eden-hero.png'
 import soulcoinContract from './assets/soulcoin-contract.png'
 import './App.css'
 
-const SECTION_ICONS = {
-  0: '📖',
-  1: '⚔️',
-  2: '🏛️',
-  3: '🗺️',
-  4: '👤',
-  5: '☠️',
-  6: '🔮',
-}
-
 function App() {
   const [lang, setLang] = useState('th')
   const [activeIdx, setActiveIdx] = useState(0)
@@ -30,6 +20,7 @@ function App() {
   }
 
   useEffect(() => {
+    document.documentElement.lang = lang
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -51,8 +42,9 @@ function App() {
       {/* Sidebar */}
       <nav id="guide-navigation" className={`sidebar ${navOpen ? 'open' : ''}`} aria-label="Campaign guide sections">
         <div className="sidebar-brand">
-          <span className="brand-year">1577</span>
           <span className="brand-name">SOULPUNK</span>
+          <span className="brand-year">1577</span>
+          <span className="brand-edition">Eden field guide</span>
         </div>
         <ul className="nav-list">
           {content.sections.map((sec, i) => (
@@ -61,7 +53,7 @@ function App() {
                 className={`nav-item ${activeIdx === i ? 'active' : ''}`}
                 onClick={() => scrollTo(i)}
               >
-                <span className="nav-icon">{SECTION_ICONS[i] || '◆'}</span>
+                <span className="nav-number">{String(i + 1).padStart(2, '0')}</span>
                 <span className="nav-label">{sec.title}</span>
               </button>
             </li>
@@ -72,7 +64,7 @@ function App() {
           onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
           aria-label={lang === 'en' ? 'Switch to Thai' : 'Switch to English'}
         >
-          {lang === 'en' ? '🇹🇭 ภาษาไทย' : '🇬🇧 English'}
+          {lang === 'en' ? 'ภาษาไทย' : 'English'}
         </button>
       </nav>
 
@@ -93,7 +85,7 @@ function App() {
           onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
           aria-label={lang === 'en' ? 'Switch to Thai' : 'Switch to English'}
         >
-          {lang === 'en' ? '🇹🇭' : '🇬🇧'}
+          {lang === 'en' ? 'TH' : 'EN'}
         </button>
       </header>
 
@@ -121,7 +113,7 @@ function App() {
             ref={(el) => (sectionRefs.current[idx] = el)}
           >
             <div className="section-header">
-              <span className="section-icon">{SECTION_ICONS[idx] || '◆'}</span>
+              <span className="section-number">{String(idx + 1).padStart(2, '0')}</span>
               <h2>{section.title}</h2>
             </div>
 
