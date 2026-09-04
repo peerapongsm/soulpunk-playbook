@@ -82,17 +82,20 @@ export const data = {
       },
       {
         title: "Named NPCs",
-        list: [
-          "**\"Glitch\" (Soulhacker Fixer):** An eccentric Deep Network contact who operates out of a static-filled bunker in The Roots. She sells illegal Projectors and gold comm-stones.",
-          "**Exec-Commander Valerius (Infernal Syndicate):** A ruthless Hex Blade corporate enforcer tasked with hunting down members of The Disconnect.",
-          "**Mother Willow (Archfey Conglomerate):** The alluring CEO of the largest pharmaceutical branch, hiding a terrifying true fey form beneath hallucinogenic glamours.",
-          "**Brother Kael (Ripperdoc):** A gruff Cleric of Lathander who runs an underground clinic. He heals Null-Punks using untraceable divine magic, asking only for GP in return."
+        subsections: [
+          { title: "\"Glitch\" — Soulhacker Fixer", art: "glitch", content: "An eccentric Deep Network contact in a static-filled bunker beneath The Roots. She sells illegal Projectors and gold comm-stones." },
+          { title: "Exec-Commander Valerius — Infernal Syndicate", art: "valerius", content: "A ruthless Hex Blade corporate enforcer tasked with hunting down members of The Disconnect." },
+          { title: "Mother Willow — Archfey Conglomerate", art: "willow", content: "The alluring CEO of the largest pharmaceutical branch, hiding a terrifying true fey form beneath hallucinogenic glamours." },
+          { title: "Brother Kael — Ripperdoc", art: "kael", content: "A gruff Cleric of Lathander who runs an underground clinic. He heals Null-Punks using untraceable divine magic, asking only for GP in return." },
+          { title: "Aurelia Voss — Celestial Vanguard", art: "voss", content: "A meticulous debt auditor who can turn a citizen's soul-share ledger into a weapon—or erase a debt for the right price." },
+          { title: "Echo-9 — Deep Network Broker", art: "echo9", content: "A masked information broker who trades in secrets, stolen memories, and the true names hidden inside corporate contracts." },
+          { title: "Mara Flint — No-Coin Smuggler", art: "mara", content: "A Bleed scavenger who moves people and contraband through the dome's blind spots without ever touching SoulCoin." }
         ]
       },
       {
         title: "Threats",
         list: [
-          "**Gloom Stalkers (ICE):** Bound demons or repurposed Rangers that patrol the Ethereal network. If they catch a hacker, they sever their mind from their body.",
+          "**Gloom Stalkers:** Bound demons or repurposed Rangers that patrol the Ethereal network. If they catch a hacker, they sever their mind from their body.",
           "**Hex Blades (Corporate Assassins):** Elite mercenaries wielding weapons bound to their soul-contracts, deployed by Patrons to silence threats.",
           "**Soulless Drones:** Tragic husks whose contracts transferred everything they had left. They are tough, emotionless enforcers and laborers for the Megacorps.",
           "**Bleed Horrors:** Hideous amalgamations of magic and flesh roaming the wasteland outside the Grid."
@@ -136,7 +139,7 @@ export const data = {
         list: [
           "**SoulCoin:** ไม่มีใครเกิดมาพร้อม SoulCoin คุณจะได้มันเมื่อยอมเซ็นสัญญาขายวิญญาณให้ Patron Megacorp เท่านั้น มันซื้อที่พัก อาหาร สถานะ และสิทธิใช้เวทขององค์กรได้ แต่ทุกเหรียญหมายถึงส่วนหนึ่งของวิญญาณที่ระบบถือครองไปแล้ว",
           "**Coinholder และ No-Coin:** คนส่วนใหญ่ใน Eden ยอมรับ SoulCoin แล้วกลายเป็น Coinholder ที่อยู่ภายใต้การเฝ้าดู หลายคนได้รับพลัง Warlock จาก Patron ส่วนคนที่ปฏิเสธเรียกว่า **No-Coin** พวกเขามีสิทธิน้อยกว่า และมักถูกมองว่าเป็นคนยากจน ตัวปัญหา หรือพวกกบฏ",
-          "**ทองคำไร้ร่องรอย:** ทองคำ (GP) ไม่มีเวทมนตร์ปะปน จึงตามรอยไม่ได้ มันคือเลือดหล่อเลี้ยงตลาดมืด และเป็นหนทางเดียวที่จะซื้อของผิดกฎหมายโดยไม่ให้ Megacorp รู้ตัว",
+          "**เงินที่ตรวจสอบไม่ได้:** ทองคำ (GP) ไม่มีเวทมนตร์ปะปน จึงตามรอยไม่ได้ มันคือเลือดหล่อเลี้ยงตลาดมืด และเป็นหนทางเดียวที่จะซื้อของผิดกฎหมายโดยไม่ให้ Megacorp รู้ตัว",
           "**เส้นแบ่งของเวทมนตร์:** Warlock รับพลังจากเซิร์ฟเวอร์ของ Patron จึงอยู่ในสายตาองค์กรเสมอ ส่วน Wizard หรือ Soulhacker, Monk และ Null-Punk ใช้เวทโอเพนซอร์สหรือกำลังจากภายในเพื่อหลบการติดตาม"
         ]
       },
@@ -167,7 +170,7 @@ export const data = {
             list: [
               "**ทักษะความชำนาญ:** Survival, Perception",
               "**ความชำนาญเครื่องมือ:** เครื่องมือนำทาง, ชุดเครื่องมือช่าง",
-              "**ความสามารถ - รู้ทางซากปรัก:** คุณหาทางปลอดภัยผ่านพายุเวทอันคาดเดาไม่ได้ใน The Bleed ได้เสมอ และรู้ว่าจะเอาของเก่าไปแลกทองคำไร้ร่องรอยที่ไหน"
+              "**ความสามารถ - รู้ทางซากปรัก:** คุณหาทางปลอดภัยผ่านพายุเวทอันคาดเดาไม่ได้ใน The Bleed ได้เสมอ และรู้ว่าจะเอาของเก่าไปแลกเงินที่ตรวจสอบไม่ได้ที่ไหน"
             ]
           }
         ]
@@ -219,7 +222,7 @@ export const data = {
       {
         title: "ภัยคุกคาม",
         list: [
-          "**Gloom Stalkers (ICE):** ปีศาจที่ถูกผูกมัด หรือ Ranger ที่ถูกดัดแปลงให้ลาดตระเวน Ethereal หากจับแฮกเกอร์ได้ พวกมันจะตัดจิตออกจากร่าง",
+          "**Gloom Stalkers:** ปีศาจที่ถูกผูกมัด หรือ Ranger ที่ถูกดัดแปลงให้ลาดตระเวน Ethereal หากจับแฮกเกอร์ได้ พวกมันจะตัดจิตออกจากร่าง",
           "**Hex Blades (มือสังหารองค์กร):** ทหารรับจ้างชั้นยอดที่ใช้อาวุธผูกกับสัญญาวิญญาณ Patron ส่งพวกเขามาเพื่อทำให้เป้าหมายเงียบตลอดกาล",
           "**Soulless Drones:** ผู้ที่สัญญาได้โอนทุกสิ่งที่เหลืออยู่ไปแล้ว กลายเป็นแรงงานและผู้บังคับใช้กฎหมายที่อึด ไร้อารมณ์ และเชื่อฟัง Megacorp",
           "**Bleed Horrors:** สิ่งมีชีวิตพิกลพิการจากเวทมนตร์และเนื้อหนัง ที่ตระเวนอยู่ในดินแดนรกร้างนอก Eden"

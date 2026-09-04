@@ -6,9 +6,25 @@ import soulcoinContract from './assets/soulcoin-contract.png'
 import edenLocation from './assets/eden-location.png'
 import bleedLocation from './assets/bleed-location.png'
 import etherealLocation from './assets/ethereal-location.png'
+import glitch from './assets/npc-glitch.png'
+import valerius from './assets/npc-valerius.png'
+import willow from './assets/npc-willow.png'
+import kael from './assets/npc-kael.png'
+import voss from './assets/npc-voss.png'
+import echo9 from './assets/npc-echo9.png'
+import mara from './assets/npc-mara.png'
 import './App.css'
 
-const locationArt = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation }
+const art = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation, glitch, valerius, willow, kael, voss, echo9, mara }
+const thaiNpcs = [
+  { title: '"Glitch" — Soulhacker Fixer', art: 'glitch', content: 'ผู้ติดต่อสุดเพี้ยนของ Deep Network ที่ทำงานจากบังเกอร์สัญญาณขาดหายใน The Roots ขาย Projector เถื่อนและ gold comm-stone' },
+  { title: 'Exec-Commander Valerius — Infernal Syndicate', art: 'valerius', content: 'ผู้บังคับบัญชา Hex Blade ผู้โหดเหี้ยม มีหน้าที่ไล่ล่าสมาชิก The Disconnect' },
+  { title: 'Mother Willow — Archfey Conglomerate', art: 'willow', content: 'ซีอีโอผู้เย้ายวนของบริษัทยาสาขาใหญ่ที่สุด ซ่อนร่าง Fey ที่น่าสะพรึงไว้ใต้มนตร์ภาพลวงตา' },
+  { title: 'Brother Kael — Ripperdoc', art: 'kael', content: 'Cleric แห่ง Lathander ผู้ดูแลคลินิกใต้ดิน รักษา Null-Punk ด้วยเวทศักดิ์สิทธิ์ไร้ร่องรอย แลกกับ GP เท่านั้น' },
+  { title: 'Aurelia Voss — Celestial Vanguard', art: 'voss', content: 'ผู้ตรวจสอบหนี้ผู้พิถีพิถัน ที่เปลี่ยนสมุดบัญชีหุ้นวิญญาณให้เป็นอาวุธ หรือลบหนี้ให้ในราคาที่เหมาะสม' },
+  { title: 'Echo-9 — Deep Network Broker', art: 'echo9', content: 'นายหน้าข้อมูลสวมหน้ากาก ผู้ค้าความลับ ความทรงจำที่ขโมยมา และชื่อจริงที่ซ่อนอยู่ในสัญญาองค์กร' },
+  { title: 'Mara Flint — No-Coin Smuggler', art: 'mara', content: 'นักเก็บกู้แห่ง The Bleed ผู้ลักลอบพาคนและของเถื่อนผ่านจุดบอดของโดมโดยไม่แตะต้อง SoulCoin' }
+]
 
 function App() {
   const [lang, setLang] = useState('th')
@@ -17,6 +33,8 @@ function App() {
   const sectionRefs = useRef([])
 
   const content = data[lang]
+  const sections = content.sections.slice(0, 6)
+  const subsections = (section, idx) => lang === 'th' && idx === 4 ? thaiNpcs : section.subsections
 
   const scrollTo = (idx) => {
     sectionRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -52,7 +70,7 @@ function App() {
           <span className="brand-edition">Eden field guide</span>
         </div>
         <ul className="nav-list">
-          {content.sections.map((sec, i) => (
+          {sections.map((sec, i) => (
             <li key={i}>
               <button
                 className={`nav-item ${activeIdx === i ? 'active' : ''}`}
@@ -111,7 +129,7 @@ function App() {
         </div>
 
         {/* Sections */}
-        {content.sections.map((section, idx) => (
+        {sections.map((section, idx) => (
           <section
             key={idx}
             className="playbook-section"
@@ -134,7 +152,7 @@ function App() {
               </figure>
             )}
 
-            {section.list && (
+            {section.list && !(lang === 'th' && idx === 4) && (
               <ul className="entry-list">
                 {section.list.map((item, i) => (
                   <li key={i}>
@@ -144,13 +162,13 @@ function App() {
               </ul>
             )}
 
-            {section.subsections && section.subsections.map((sub, sidx) => (
+            {subsections(section, idx)?.map((sub, sidx) => (
               <div key={sidx} className="subsection">
                 <h3>{sub.title}</h3>
                 {sub.content && <p>{sub.content}</p>}
                 {sub.art && (
                   <figure className="setting-art location-art">
-                    <img src={locationArt[sub.art]} alt={sub.title} />
+                    <img src={art[sub.art]} alt={sub.title} />
                   </figure>
                 )}
                 {sub.art === 'ethereal' && lang === 'th' && <p><strong>Oil of Etherealness (Uncommon):</strong> ใช้เข้าและออกจาก The Ethereal ได้</p>}
