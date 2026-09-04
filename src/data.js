@@ -236,19 +236,19 @@ export const data = {
         ]
       },
       {
-        title: "Street Slang Directory",
+        title: "คำศัพท์สแลงข้างถนน",
         list: [
-          "**The Ethereal:** The Border Ethereal plane colonized by Patrons as the ultimate arcane network. Minds project here for data and contracts.",
-          "**Gear:** Physical, magical, or technological enhancements.",
-          "**Projector:** An illegal arcane focus used to force consciousness into the Ethereal without a corporate login.",
-          "**Gloom Stalker:** Corporate security—repurposed Rangers and bound demons—patrolling the Ethereal. They sever hackers' minds.",
-          "**Soulhacker:** Wizards and rogue Artificers diving into the Ethereal to rewrite contracts and steal data.",
-          "**Cleric:** Underground back-alley surgeons and rebel priests using untraceable divine magic.",
-          "**Hex Blade:** Corporate assassins or elite street mercenaries with weapons bound to their soul-contracts.",
-          "**Fixer:** Underworld brokers and middlemen.",
-          "**Soulless:** A derogatory term for corporate drones who have leased 100% of their soul shares.",
-          "**Out of coin:** To die. When someone dies, their Patron immediately cashes in all remaining soul shares.",
-          "**Gold:** Used for anything anonymous or disposable, such as a gold comm-stone, because GP is untraceable."
+          "**The Ethereal:** Border Ethereal ที่ Patron ยึดเป็นเครือข่ายเวทมนตร์ขั้นสูงสุด ผู้คนฉายจิตมาที่นี่เพื่อข้อมูลและสัญญา",
+          "**Gear:** การเสริมสภาพทางกาย เวทมนตร์ หรือเทคโนโลยี",
+          "**Projector:** โฟกัสเวทผิดกฎหมายที่ใช้บังคับให้จิตเข้าสู่ Ethereal โดยไม่ต้องล็อกอินขององค์กร",
+          "**Gloom Stalker:** หน่วยรักษาความปลอดภัยขององค์กร—Ranger ที่ถูกดัดแปลงและปีศาจที่ถูกผูกมัด—ลาดตระเวน Ethereal และตัดจิตของแฮ็กเกอร์",
+          "**Soulhacker:** Wizard และ Artificer นอกคอกที่ดำดิ่งสู่ Ethereal เพื่อเขียนสัญญาใหม่และขโมยข้อมูล",
+          "**Cleric:** ศัลยแพทย์หลังตรอกและนักบวชกบฏที่ใช้เวทศักดิ์สิทธิ์ไร้ร่องรอย",
+          "**Hex Blade:** มือสังหารองค์กรหรือทหารรับจ้างชั้นยอด ผู้ใช้อาวุธที่ผูกกับสัญญาวิญญาณ",
+          "**Fixer:** นายหน้าและคนกลางของโลกใต้ดิน",
+          "**Soulless:** คำเหยียดสำหรับโดรนองค์กรที่ให้เช่าหุ้นวิญญาณครบ 100%",
+          "**Out of coin:** ตาย เมื่อใครตาย Patron จะขึ้นเงินหุ้นวิญญาณที่เหลือทั้งหมดทันที",
+          "**Gold:** ใช้เรียกสิ่งที่ไม่ระบุตัวตนหรือใช้แล้วทิ้ง เช่น gold comm-stone เพราะ GP ตามรอยไม่ได้"
         ]
       }
     ]
