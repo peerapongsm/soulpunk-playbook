@@ -13,9 +13,35 @@ import kael from './assets/npc-kael.png'
 import voss from './assets/npc-voss.png'
 import echo9 from './assets/npc-echo9.png'
 import mara from './assets/npc-mara.png'
+import aster from './assets/preg-aster.png'
+import nyx from './assets/preg-nyx.png'
+import sable from './assets/preg-sable.png'
+import ash from './assets/preg-ash.png'
+import kestrel from './assets/preg-kestrel.png'
+import ilyra from './assets/preg-ilyra.png'
+import jun from './assets/preg-jun.png'
 import './App.css'
 
-const art = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation, glitch, valerius, willow, kael, voss, echo9, mara }
+const art = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation, glitch, valerius, willow, kael, voss, echo9, mara, aster, nyx, sable, ash, kestrel, ilyra, jun }
+const npcDetails = { glitch: ['Deep Network', '29'], valerius: ['Infernal Syndicate', '46'], willow: ['Archfey Conglomerate', 'Unknown'], kael: ['The Disconnect', '58'], voss: ['Celestial Vanguard', '34'], echo9: ['Deep Network', 'Unknown'], mara: ['No-Coin', '27'] }
+const extraSections = [
+  { title: 'Pre-generated Characters', content: 'Seven level-3 characters ready to enter Eden. Choose one, take the listed hooks, and play.', cards: [
+    ['aster', 'Aster Vane', 'Human Fighter 3 · No-Coin Courier', 'AC 18 · HP 28 · STR 16 · DEX 14', 'A former dome-runner carrying a gold comm-stone that proves a Patron is stealing soul shares.'],
+    ['nyx', 'Nyx Arclight', 'High Elf Wizard 3 · Soulhacker', 'AC 13 · HP 17 · INT 16 · Spell Save DC 13', 'A contract-code prodigy whose stolen access key opens a locked Ethereal vault.'],
+    ['sable', 'Sable Thorn', 'Tiefling Warlock 3 · Corporate Defector', 'AC 14 · HP 24 · CHA 16 · Spell Save DC 13', 'Her Patron wants her back; the price of freedom is a single impossible job.'],
+    ['ash', 'Brother Ash', 'Dwarf Cleric 3 · Ripperdoc', 'AC 17 · HP 27 · WIS 16 · Spell Save DC 13', 'A street medic protecting patients whose debt makes them valuable to the Vanguard.'],
+    ['kestrel', 'Kestrel', 'Half-Orc Rogue 3 · Fixer', 'AC 15 · HP 24 · DEX 16 · Sneak Attack 2d6', 'A broker with one last favour owed by every faction in The Roots.'],
+    ['ilyra', 'Ilyra Moss', 'Wood Elf Ranger 3 · Bleed Scavenger', 'AC 15 · HP 25 · DEX 16 · Favored Terrain: The Bleed', 'She found a route through the storm that should not exist, and something followed her home.'],
+    ['jun', 'Jun Vale', 'Human Monk 3 · Faraday Order', 'AC 15 · HP 24 · DEX 16 · Ki 3', 'His Order sent him to silence a rogue signal that is scrambling corporate magic.']
+  ] },
+  { title: 'Example One-Shot Run', content: 'The Silence Between Contracts · a 3–4 hour mission for level-3 characters.', list: [
+    '**Hook:** Glitch hires the crew to retrieve a soul-share ledger before the Infernal Syndicate purges it.',
+    '**Scene 1 — The Roots:** Bargain with Kestrel or evade Deep Network lookouts to learn the ledger is moving through the Ethereal.',
+    '**Scene 2 — The Ethereal:** Use Oil of Etherealness, bypass Gloom Stalkers, and find the ledger inside a floating contract archive.',
+    '**Scene 3 — Neon-Hell:** Escape with the evidence as Valerius and his Hex Blades close in.',
+    '**Outcome:** Give the ledger to The Disconnect, sell it to Echo-9, or erase it—each choice creates an ally and an enemy.'
+  ] }
+]
 const thaiNpcs = [
   { title: '"Glitch" — Soulhacker Fixer', art: 'glitch', content: 'ผู้ติดต่อสุดเพี้ยนของ Deep Network ที่ทำงานจากบังเกอร์สัญญาณขาดหายใน The Roots ขาย Projector เถื่อนและ gold comm-stone' },
   { title: 'Exec-Commander Valerius — Infernal Syndicate', art: 'valerius', content: 'ผู้บังคับบัญชา Hex Blade ผู้โหดเหี้ยม มีหน้าที่ไล่ล่าสมาชิก The Disconnect' },
@@ -33,7 +59,7 @@ function App() {
   const sectionRefs = useRef([])
 
   const content = data[lang]
-  const sections = content.sections.slice(0, 6)
+  const sections = [...content.sections.slice(0, 6), ...extraSections]
   const subsections = (section, idx) => lang === 'th' && idx === 4 ? thaiNpcs : section.subsections
 
   const scrollTo = (idx) => {
@@ -142,6 +168,15 @@ function App() {
 
             {section.content && <p className="section-lead">{section.content}</p>}
 
+            {section.cards && <div className="dossier-list">
+              {section.cards.map(([image, name, role, sheet, background]) => (
+                <article className="dossier-card" key={name}>
+                  <img src={art[image]} alt={name} />
+                  <div><h3>{name}</h3><p className="dossier-role">{role}</p><p className="dossier-sheet">{sheet}</p><p>{background}</p></div>
+                </article>
+              ))}
+            </div>}
+
             {idx === 0 && (
               <figure className="setting-art">
                 <img
@@ -163,9 +198,10 @@ function App() {
             )}
 
             {subsections(section, idx)?.map((sub, sidx) => (
-              <div key={sidx} className="subsection">
+              <div key={sidx} className={`subsection ${idx === 4 ? 'npc-card' : ''}`}>
                 <h3>{sub.title}</h3>
                 {sub.content && <p>{sub.content}</p>}
+                {idx === 4 && <p className="npc-facts"><strong>Faction:</strong> {npcDetails[sub.art][0]} &nbsp; <strong>Age:</strong> {npcDetails[sub.art][1]}</p>}
                 {sub.art && (
                   <figure className="setting-art location-art">
                     <img src={art[sub.art]} alt={sub.title} />
