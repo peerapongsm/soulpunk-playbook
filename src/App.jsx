@@ -23,7 +23,7 @@ import jun from './assets/preg-jun.png'
 import './App.css'
 
 const art = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation, glitch: glitchV2, valerius: valeriusV2, willow: willowV2, kael: kaelV2, voss: vossV2, echo9: echo9V2, mara: maraV2, aster, nyx, sable, ash, kestrel, ilyra, jun }
-const npcDetails = { glitch: ['Deep Network', '29', 'Yuan-ti'], valerius: ['Infernal Syndicate', '46', 'Dragonborn'], willow: ['Archfey Conglomerate', 'Unknown', 'Satyr'], kael: ['The Disconnect', '58', 'Earth Genasi'], voss: ['Celestial Vanguard', '34', 'Aasimar'], echo9: ['Deep Network', 'Unknown', 'Changeling'], mara: ['No-Coin', '27', 'Goliath'] }
+const npcDetails = { glitch: ['Deep Network', '29', 'Tiefling'], valerius: ['Infernal Syndicate', '46', 'Dragonborn'], willow: ['Archfey Conglomerate', 'Unknown', 'Satyr'], kael: ['The Disconnect', '58', 'Earth Genasi'], voss: ['Celestial Vanguard', '34', 'Aasimar'], echo9: ['Deep Network', 'Unknown', 'Changeling'], mara: ['No-Coin', '27', 'Goliath'] }
 const characterSheets = [
   ['aster', 'Aster Vane', 'Human Fighter 3', 'No-Coin Courier', '16 (+3), 14 (+2), 14 (+2), 10 (+0), 12 (+1), 8 (-1)', 'AC 18 · HP 28 · Speed 30 ft · HD 3d10 · Initiative +2', 'Str +5, Con +4', 'Athletics +5, Intimidation +1, Perception +3, Survival +3', 'Longsword +5 (1d8+3 slashing); light crossbow +4 (1d8+2 piercing)', 'Second Wind; Action Surge; Champion: Improved Critical', 'Chain mail, shield, longsword, crossbow, 20 bolts, explorer pack, gold comm-stone', 'Direct and unsentimental. Ideal: freedom. Bond: exposes stolen soul shares. Flaw: never leaves a debt unpaid.'],
   ['nyx', 'Nyx Arclight', 'High Elf Wizard 3', 'Soulhacker', '8 (-1), 14 (+2), 14 (+2), 16 (+3), 12 (+1), 10 (+0)', 'AC 13 · HP 17 · Speed 30 ft · HD 3d6 · Initiative +2', 'Int +5, Wis +3', 'Arcana +5, History +5, Investigation +5, Insight +3', 'Dagger +4 (1d4+2); Fire Bolt +5 (1d10 fire)', 'Arcane Recovery; School of Divination: Portent (2d20)', 'Projector, spellbook, dagger, scholar pack, 15 gp', 'Restless and precise. Ideal: truth should be free. Bond: a stolen vault key. Flaw: trusts systems more than people.'],
@@ -60,6 +60,7 @@ const extraSections = [
     '**Rewards and finale:** The ledger is worth 75 gp to Echo-9, or earns The Disconnect’s protection. Giving it to Glitch exposes a Patron theft ring; selling it makes the Deep Network an ally; erasing it earns Valerius’s permanent attention.'
   ] }
 ]
+extraSections[0].cards = []
 const thaiNpcs = [
   { title: '"Glitch" — Soulhacker Fixer', art: 'glitch', content: 'ผู้ติดต่อสุดเพี้ยนของ Deep Network ที่ทำงานจากบังเกอร์สัญญาณขาดหายใน The Roots ขาย Projector เถื่อนและ gold comm-stone' },
   { title: 'Exec-Commander Valerius — Infernal Syndicate', art: 'valerius', content: 'ผู้บังคับบัญชา Hex Blade ผู้โหดเหี้ยม มีหน้าที่ไล่ล่าสมาชิก The Disconnect' },
