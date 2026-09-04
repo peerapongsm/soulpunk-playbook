@@ -17,7 +17,7 @@ export const data = {
         title: "Custom Backgrounds",
         subsections: [
           {
-            title: "Corporate Drone (Recovering)",
+            title: "Corporate Drone",
             content: "You spent your life slaving away for one of the Megacorporations until a clerical error or a rebel raid freed you.",
             list: [
               "**Skill Proficiencies:** Investigation, Persuasion",
@@ -125,7 +125,7 @@ export const data = {
         title: "ภูมิหลังตัวละคร",
         subsections: [
           {
-            title: "โดรนองค์กร (ที่กำลังฟื้นตัว)",
+            title: "โดรนองค์กร",
             content: "คุณเคยใช้ทั้งชีวิตรับใช้ Megacorp จนความผิดพลาดในเอกสาร หรือการบุกช่วยของกลุ่มกบฏ เปิดทางให้คุณหลุดพ้นมาได้",
             list: [
               "**ทักษะความชำนาญ:** Investigation, Persuasion",
