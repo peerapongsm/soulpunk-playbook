@@ -3,7 +3,12 @@ import { data } from './data'
 import ReactMarkdown from 'react-markdown'
 import edenHero from './assets/eden-hero.png'
 import soulcoinContract from './assets/soulcoin-contract.png'
+import edenLocation from './assets/eden-location.png'
+import bleedLocation from './assets/bleed-location.png'
+import etherealLocation from './assets/ethereal-location.png'
 import './App.css'
+
+const locationArt = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation }
 
 function App() {
   const [lang, setLang] = useState('th')
@@ -143,6 +148,12 @@ function App() {
               <div key={sidx} className="subsection">
                 <h3>{sub.title}</h3>
                 {sub.content && <p>{sub.content}</p>}
+                {sub.art && (
+                  <figure className="setting-art location-art">
+                    <img src={locationArt[sub.art]} alt={sub.title} />
+                  </figure>
+                )}
+                {sub.art === 'ethereal' && lang === 'th' && <p><strong>Oil of Etherealness (Uncommon):</strong> ใช้เข้าและออกจาก The Ethereal ได้</p>}
                 {sub.list && (
                   <ul className="entry-list">
                     {sub.list.map((item, i) => (

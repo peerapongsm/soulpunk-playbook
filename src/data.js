@@ -60,6 +60,7 @@ export const data = {
         subsections: [
           {
             title: "Eden",
+            art: "eden",
             content: "A sprawling megacity sealed under a massive magical dome to protect against the wastelands.",
             list: [
               "**The Zenith Spires:** The blinding white towers where the Celestial Vanguard bankers reside.",
@@ -69,11 +70,13 @@ export const data = {
           },
           {
             title: "The Bleed",
+            art: "bleed",
             content: "The Eldritch Wasteland surrounding the Grid. It is filled with the ruined cities of 1490s DR, volatile magic storms, and terrifying mutated monsters. Scavengers go here to dig up untraceable GP."
           },
           {
             title: "The Ethereal (Cyberspace)",
-            content: "The Border Ethereal plane colonized by Patrons as the ultimate arcane data network. Minds are projected here to sign contracts, steal data, or patrol for hackers."
+            art: "ethereal",
+            content: "The Border Ethereal plane colonized by Patrons as the ultimate arcane data network. Minds are projected here to sign contracts, steal data, or patrol for hackers. Oil of Etherealness is an uncommon item in this setting, used to enter and leave the Ethereal."
           }
         ]
       },
@@ -184,6 +187,7 @@ export const data = {
         subsections: [
           {
             title: "Eden",
+            art: "eden",
             content: "มหานครมหึมาที่ถูกปิดผนึกอยู่ใต้โดมเวทมนตร์ เพื่อกันผู้คนออกจากดินแดนรกร้างภายนอก",
             list: [
               "**The Zenith Spires:** หอคอยสีขาวสว่างจ้า ที่อยู่ของเหล่านายธนาคาร Celestial Vanguard",
@@ -193,10 +197,12 @@ export const data = {
           },
           {
             title: "The Bleed",
+            art: "bleed",
             content: "แดนรกร้าง Eldritch Wasteland ที่โอบล้อม Eden เต็มไปด้วยซากเมืองจากยุค 1490s DR พายุเวทที่แปรปรวน และสัตว์ประหลาดกลายพันธุ์ นักเก็บกู้เสี่ยงชีวิตมาที่นี่เพื่อขุดหาทองคำ (GP) ที่ตามรอยไม่ได้"
           },
           {
             title: "The Ethereal (ไซเบอร์สเปซ)",
+            art: "ethereal",
             content: "Border Ethereal ถูก Patron ยึดเป็นเครือข่ายข้อมูลเวทมนตร์ ผู้คนฉายจิตเข้ามาที่นี่เพื่อเซ็นสัญญา ขโมยข้อมูล หรือล่าตัวแฮกเกอร์"
           }
         ]
