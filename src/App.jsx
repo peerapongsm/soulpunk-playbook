@@ -61,6 +61,17 @@ const extraSections = [
   ] }
 ]
 extraSections[0].cards = []
+const thaiOneShot = {
+  title: 'ตัวอย่างการเล่น One-Shot',
+  content: 'ความเงียบระหว่างสัญญา · ภารกิจ 3–4 ชั่วโมงสำหรับตัวละครเลเวล 5',
+  list: [
+    '**จุดเริ่มต้น:** Glitch จ้างทีมไปชิงสมุดบัญชีหุ้นวิญญาณก่อน Infernal Syndicate จะล้างข้อมูลทิ้ง',
+    '**ฉาก 1 — The Roots (45 นาที):** อ่านบรรยาย: สัญญาณรบกวนไหลออกจากบังเกอร์ของ Glitch ขณะที่ตำแหน่งสุดท้ายของสมุดบัญชีลุกไหม้บน Projector ใช้ Persuasion หรือ Deception DC 13 หรือจ่ายสินบน 15 gp เพื่อผ่านยาม Deep Network; ล้มเหลวจะเริ่มการไล่ล่า ไม่ใช่การต่อสู้',
+    '**ฉาก 2 — The Ethereal (60 นาที):** Oil of Etherealness เปิดเส้นทาง Arcana หรือ Investigation DC 13 พบสมุดบัญชีในคลังสัญญาลอยฟ้า Gloom Stalker สองตนหลบได้ด้วย Stealth DC 13 หลอกด้วยคำสั่งองค์กรปลอม หรือต่อสู้',
+    '**ฉาก 3 — Neon-Hell (45 นาที):** Valerius ปิดทางออกพร้อม Hex Blade สองคน เขาต้องการสมุดบัญชีที่สมบูรณ์ Persuasion DC 14 หลักฐานหนี้ของเขาเอง หรือสำเนาปลอม สามารถจบฉากโดยไม่สู้',
+    '**รางวัลและบทสรุป:** Echo-9 ซื้อสมุดบัญชีในราคา 75 gp หรือ The Disconnect มอบความคุ้มครองให้ มอบให้ Glitch จะเปิดโปงวงการขโมยหุ้นวิญญาณ ขายให้ Echo-9 ทำให้ Deep Network เป็นมิตร ลบทิ้งจะทำให้ Valerius ตามล่าคุณถาวร'
+  ]
+}
 const thaiNpcs = [
   { title: '"Glitch" — Soulhacker Fixer', art: 'glitch', content: 'ผู้ติดต่อสุดเพี้ยนของ Deep Network ที่ทำงานจากบังเกอร์สัญญาณขาดหายใน The Roots ขาย Projector เถื่อนและ gold comm-stone' },
   { title: 'Exec-Commander Valerius — Infernal Syndicate', art: 'valerius', content: 'ผู้บังคับบัญชา Hex Blade ผู้โหดเหี้ยม มีหน้าที่ไล่ล่าสมาชิก The Disconnect' },
@@ -78,7 +89,7 @@ function App() {
   const sectionRefs = useRef([])
 
   const content = data[lang]
-  const sections = [...content.sections.slice(0, 6), ...extraSections]
+  const sections = [...content.sections.slice(0, 6), ...extraSections.map((section, idx) => lang === 'th' && idx === 1 ? thaiOneShot : section)]
   const subsections = (section, idx) => {
     if (lang === 'th' && idx === 4) return thaiNpcs
     if (lang === 'th' && idx === 1) return section.subsections.map((sub, i) => ({ ...sub, title: ['Corporate Drone', 'Ethereal Soulhacker', 'Bleed Scavenger'][i] }))
