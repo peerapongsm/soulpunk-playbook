@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { data } from './data'
 import ReactMarkdown from 'react-markdown'
+import edenHero from './assets/eden-hero.png'
+import soulcoinContract from './assets/soulcoin-contract.png'
 import './App.css'
 
 const SECTION_ICONS = {
@@ -101,9 +103,14 @@ function App() {
       <main className="content" id="guide-content">
         {/* Hero */}
         <div className="hero">
-          <p className="hero-era">SOVEREIGN GRID OF VAEL · 1577 DR</p>
+          <p className="hero-era">THE CITY OF EDEN · 1577 DR</p>
           <h1 className="hero-title">{content.title}</h1>
           <p className="hero-intro">{content.intro}</p>
+          <img
+            className="hero-art"
+            src={edenHero}
+            alt={lang === 'en' ? 'Eden, a magical city enclosed beneath a vast dome' : 'นครเอเดนใต้โดมเวทมนตร์ขนาดมหึมา'}
+          />
         </div>
 
         {/* Sections */}
@@ -119,6 +126,16 @@ function App() {
             </div>
 
             {section.content && <p className="section-lead">{section.content}</p>}
+
+            {idx === 0 && (
+              <figure className="setting-art">
+                <img
+                  src={soulcoinContract}
+                  alt={lang === 'en' ? 'A SoulCoin beside a torn soul contract' : 'เหรียญ SoulCoin ข้างสัญญาขายวิญญาณที่ฉีกขาด'}
+                />
+                <figcaption>{lang === 'en' ? 'A SoulCoin is a contract made spendable.' : 'SoulCoin คือสัญญาที่ถูกทำให้ใช้จ่ายได้'}</figcaption>
+              </figure>
+            )}
 
             {section.list && (
               <ul className="entry-list">
