@@ -1,271 +1,138 @@
-import { useState, useRef, useEffect } from 'react'
-import { data } from './data'
+import { useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import edenHero from './assets/eden-hero.png'
-import soulcoinContract from './assets/soulcoin-contract.png'
-import edenLocation from './assets/eden-location.png'
-import bleedLocation from './assets/bleed-location.png'
-import etherealLocation from './assets/ethereal-location.png'
-import valeriusV2 from './assets/npc-valerius-v2.png'
-import willowV2 from './assets/npc-willow-v2.png'
-import glitchV2 from './assets/npc-glitch-v2.png'
-import kaelV2 from './assets/npc-kael-v2.png'
-import vossV2 from './assets/npc-voss-v2.png'
-import echo9V2 from './assets/npc-echo9-v2.png'
-import maraV2 from './assets/npc-mara-v2.png'
-import aster from './assets/preg-aster.png'
-import nyx from './assets/preg-nyx.png'
-import sable from './assets/preg-sable.png'
-import ash from './assets/preg-ash.png'
-import kestrel from './assets/preg-kestrel.png'
-import ilyra from './assets/preg-ilyra.png'
-import jun from './assets/preg-jun.png'
+import { groups, sections, maps, getHandout } from './data'
+import { characters, abilities, abilityMod, signed, proficiency, skillBonus, attackBonus, spellDC } from './characters'
+import { contracts } from './rules'
 import './App.css'
 
-const art = { eden: edenLocation, bleed: bleedLocation, ethereal: etherealLocation, glitch: glitchV2, valerius: valeriusV2, willow: willowV2, kael: kaelV2, voss: vossV2, echo9: echo9V2, mara: maraV2, aster, nyx, sable, ash, kestrel, ilyra, jun }
-const npcDetails = { glitch: ['Deep Network', '29', 'Tiefling'], valerius: ['Infernal Syndicate', '46', 'Dragonborn'], willow: ['Archfey Conglomerate', 'Unknown', 'Satyr'], kael: ['The Disconnect', '58', 'Earth Genasi'], voss: ['Celestial Vanguard', '34', 'Aasimar'], echo9: ['Deep Network', 'Unknown', 'Changeling'], mara: ['No-Coin', '27', 'Goliath'] }
-const characterSheets = [
-  ['aster', 'Aster Vane', 'Human Fighter 3', 'No-Coin Courier', '16 (+3), 14 (+2), 14 (+2), 10 (+0), 12 (+1), 8 (-1)', 'AC 18 · HP 28 · Speed 30 ft · HD 3d10 · Initiative +2', 'Str +5, Con +4', 'Athletics +5, Intimidation +1, Perception +3, Survival +3', 'Longsword +5 (1d8+3 slashing); light crossbow +4 (1d8+2 piercing)', 'Second Wind; Action Surge; Champion: Improved Critical', 'Chain mail, shield, longsword, crossbow, 20 bolts, explorer pack, gold comm-stone', 'Direct and unsentimental. Ideal: freedom. Bond: exposes stolen soul shares. Flaw: never leaves a debt unpaid.'],
-  ['nyx', 'Nyx Arclight', 'High Elf Wizard 3', 'Soulhacker', '8 (-1), 14 (+2), 14 (+2), 16 (+3), 12 (+1), 10 (+0)', 'AC 13 · HP 17 · Speed 30 ft · HD 3d6 · Initiative +2', 'Int +5, Wis +3', 'Arcana +5, History +5, Investigation +5, Insight +3', 'Dagger +4 (1d4+2); Fire Bolt +5 (1d10 fire)', 'Arcane Recovery; School of Divination: Portent (2d20)', 'Projector, spellbook, dagger, scholar pack, 15 gp', 'Restless and precise. Ideal: truth should be free. Bond: a stolen vault key. Flaw: trusts systems more than people.'],
-  ['sable', 'Sable Thorn', 'Tiefling Warlock 3', 'Corporate Defector', '8 (-1), 14 (+2), 14 (+2), 10 (+0), 10 (+0), 16 (+3)', 'AC 14 · HP 24 · Speed 30 ft · HD 3d8 · Initiative +2', 'Wis +2, Cha +5', 'Deception +5, Intimidation +5, Investigation +2, Persuasion +5', 'Eldritch Blast +5 (1d10 force); dagger +4 (1d4+2)', 'Pact Magic (2 slots, level 2); Agonizing Blast; Devil’s Sight; Pact of the Chain', 'Leather armor, dagger, arcane focus, diplomat pack, infernal contract fragment', 'Elegant under pressure. Ideal: self-ownership. Bond: her Patron’s true name. Flaw: makes promises too easily.'],
-  ['ash', 'Brother Ash', 'Dwarf Cleric 3', 'Ripperdoc', '14 (+2), 10 (+0), 16 (+3), 10 (+0), 16 (+3), 12 (+1)', 'AC 17 · HP 27 · Speed 25 ft · HD 3d8 · Initiative +0', 'Wis +5, Cha +3', 'Medicine +5, Insight +5, Religion +2, Persuasion +3', 'Warhammer +4 (1d8+2); Sacred Flame DC 13 (1d8 radiant)', 'Spellcasting; Channel Divinity: Preserve Life; Life Domain', 'Scale mail, shield, warhammer, holy symbol, healer kit, 20 gp', 'Gruff but gentle. Ideal: no one dies for lack of coin. Bond: his hidden clinic. Flaw: cannot refuse a patient.'],
-  ['kestrel', 'Kestrel', 'Half-Orc Rogue 3', 'Fixer', '10 (+0), 16 (+3), 14 (+2), 12 (+1), 10 (+0), 14 (+2)', 'AC 15 · HP 24 · Speed 30 ft · HD 3d8 · Initiative +3', 'Dex +5, Int +3', 'Acrobatics +5, Deception +4, Insight +2, Investigation +3, Sleight of Hand +5, Stealth +7', 'Rapier +5 (1d8+3 + 2d6 Sneak Attack); shortbow +5 (1d6+3)', 'Expertise: Stealth, Deception; Cunning Action; Thief: Fast Hands', 'Rapier, shortbow, 20 arrows, thieves’ tools, gold comm-stone, 18 gp', 'Always has a contact. Ideal: leverage. Bond: favours ledger. Flaw: cannot resist a secret.'],
-  ['ilyra', 'Ilyra Moss', 'Wood Elf Ranger 3', 'Bleed Scavenger', '10 (+0), 16 (+3), 14 (+2), 10 (+0), 14 (+2), 10 (+0)', 'AC 15 · HP 25 · Speed 35 ft · HD 3d10 · Initiative +3', 'Str +2, Dex +5', 'Nature +2, Perception +4, Stealth +5, Survival +4', 'Longbow +5 (1d8+3); shortsword +5 (1d6+3)', 'Favored Enemy: aberrations; Natural Explorer: The Bleed; Hunter’s Prey: Colossus Slayer', 'Studded leather, longbow, 20 arrows, two shortswords, explorer pack, storm compass', 'Quietly observant. Ideal: endure. Bond: an impossible route through The Bleed. Flaw: sleeps with one eye open.'],
-  ['jun', 'Jun Vale', 'Human Monk 3', 'Faraday Order', '10 (+0), 16 (+3), 14 (+2), 10 (+0), 14 (+2), 12 (+1)', 'AC 15 · HP 24 · Speed 40 ft · HD 3d8 · Initiative +3', 'Str +2, Dex +5', 'Acrobatics +5, Athletics +2, Insight +4, Stealth +5', 'Unarmed Strike +5 (1d4+3); quarterstaff +5 (1d6+3)', 'Martial Arts; Ki 3; Flurry of Blows; Patient Defense; Step of the Wind; Way of the Open Hand', 'Quarterstaff, 10 darts, explorer pack, Faraday prayer beads', 'Calm under fire. Ideal: discipline. Bond: a rogue signal. Flaw: mistakes restraint for wisdom.']
-]
-const levelFive = {
-  'Aster Vane': { klass: 'Human Fighter 5', combat: 'AC 18 · HP 44 · Speed 30 ft · HD 5d10 · Initiative +2', attacks: 'Longsword +6 (1d8+3 slashing, two attacks); light crossbow +5 (1d8+2 piercing)', features: 'Second Wind; Action Surge; Champion: Improved Critical; Extra Attack' },
-  'Nyx Arclight': { klass: 'High Elf Wizard 5', combat: 'AC 13 · HP 27 · Speed 30 ft · HD 5d6 · Initiative +2', attacks: 'Dagger +5 (1d4+2); Fire Bolt +6 (2d10 fire)', features: 'Arcane Recovery; School of Divination: Portent (2d20); Spellbook: Fireball, Counterspell, and Blink (3rd level)' },
-  'Sable Thorn': { klass: 'Tiefling Warlock 5', combat: 'AC 14 · HP 38 · Speed 30 ft · HD 5d8 · Initiative +2', attacks: 'Eldritch Blast +6 (2 beams, 1d10+3 force each); dagger +5 (1d4+2)', features: 'Pact Magic (2 level-3 slots); Agonizing Blast; Devil’s Sight; Pact of the Chain' },
-  'Brother Ash': { klass: 'Dwarf Cleric 5', combat: 'AC 17 · HP 43 · Speed 25 ft · HD 5d8 · Initiative +0', attacks: 'Warhammer +5 (1d8+2); Sacred Flame DC 14 (2d8 radiant)', features: 'Spellcasting (3rd-level spells); Channel Divinity: Preserve Life; Life Domain; Destroy Undead CR 1/2' },
-  'Kestrel': { klass: 'Half-Orc Rogue 5', combat: 'AC 15 · HP 38 · Speed 30 ft · HD 5d8 · Initiative +3', attacks: 'Rapier +6 (1d8+3 + 3d6 Sneak Attack); shortbow +6 (1d6+3)', features: 'Expertise: Stealth, Deception; Cunning Action; Uncanny Dodge; Sneak Attack 3d6' },
-  'Ilyra Moss': { klass: 'Wood Elf Ranger 5', combat: 'AC 15 · HP 40 · Speed 35 ft · HD 5d10 · Initiative +3', attacks: 'Longbow +6 (1d8+3, two attacks); shortsword +6 (1d6+3)', features: 'Favored Enemy: aberrations; Natural Explorer: The Bleed; Hunter’s Prey: Colossus Slayer; Extra Attack; 2nd-level spells' },
-  'Jun Vale': { klass: 'Human Monk 5', combat: 'AC 15 · HP 38 · Speed 40 ft · HD 5d8 · Initiative +3', attacks: 'Unarmed Strike +6 (1d6+3, two attacks); quarterstaff +6 (1d6+3)', features: 'Martial Arts; Ki 5; Flurry of Blows; Patient Defense; Step of the Wind; Extra Attack; Stunning Strike; Way of the Open Hand' }
+const assets = import.meta.glob(['./assets/preg-*.png', './assets/npc-*-v2.png', './assets/eden-hero.png', './assets/eden-location.png'], { eager: true, query: '?url', import: 'default' })
+const art = name => assets['./assets/' + name + '.png']
+const text = (lang, en, th) => lang === 'en' ? en : th
+const markdownComponents = { h2: props => <h3 {...props} />, h3: props => <h4 {...props} /> }
+const Markdown = ({ children }) => <div className="prose"><ReactMarkdown components={markdownComponents}>{children}</ReactMarkdown></div>
+
+function FieldMap({ mapKey, lang, dm, publicOnly = false }) {
+  const [playerMap, setPlayerMap] = useState(false)
+  const map = maps[mapKey]
+  const secrets = dm && !playerMap && !publicOnly
+  const nodes = map.nodes.filter(n => !n.dm || secrets)
+  const edges = map.edges.filter(e => !e.dm || secrets)
+  const prefix = (publicOnly ? 'handout-' : '') + mapKey
+  return <figure className="field-map">
+    <figcaption><strong>{map.title[lang]}</strong><span>{text(lang, 'Schematic, not to scale. Select a node for its key.', 'แผนผังไม่ตามมาตราส่วน เลือกจุดเพื่ออ่านกุญแจ')}</span>
+      {dm && !publicOnly && <label className="screen-only"><input type="checkbox" checked={playerMap} onChange={e => setPlayerMap(e.target.checked)} /> {text(lang, 'Player map (hide secret routes)', 'แผนที่ผู้เล่น (ซ่อนทางลับ)')}</label>}
+    </figcaption>
+    <svg viewBox="0 0 600 325" aria-label={map.title[lang]} role="group"><title>{map.title[lang]}</title>
+      {edges.map(e => {
+        const a = map.nodes.find(n => n.id === e.from), b = map.nodes.find(n => n.id === e.to)
+        return <g key={e.from + e.to} className={e.dm ? 'secret-route' : 'route'}>
+          <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
+          {e.minutes && <text x={(a.x + b.x) / 2 + 8} y={(a.y + b.y) / 2 - 9}>{e.minutes} {text(lang, 'min', 'นาที')}</text>}
+        </g>
+      })}
+      {nodes.map(n => <a key={n.id} href={'#' + prefix + '-key-' + n.id} aria-label={n.id + ': ' + n.label[lang]}><circle cx={n.x} cy={n.y} r="24" /><text x={n.x} y={n.y + 6} textAnchor="middle" className="node-label">{n.id}</text></a>)}
+    </svg>
+    <ol className="map-key">{nodes.map(n => <li id={prefix + '-key-' + n.id} key={n.id} tabIndex="-1"><strong>{n.id}</strong> {n.label[lang]}</li>)}</ol>
+    <p className="map-routes">{edges.map(e => e.from + ' ↔ ' + e.to + (e.minutes ? ' · ' + e.minutes + text(lang, ' min', ' นาที') : '') + (e.dm ? text(lang, ' (secret)', ' (ลับ)') : '')).join(' / ')}</p>
+  </figure>
 }
-const extraSections = [
-  { title: 'Pre-generated Characters', content: 'Seven level-5 characters ready to enter Eden. Choose one, take the listed hooks, and play.', cards: [
-    ['aster', 'Aster Vane', 'Human Fighter 3 · No-Coin Courier', 'AC 18 · HP 28 · STR 16 · DEX 14', 'A former dome-runner carrying a gold comm-stone that proves a Patron is stealing soul shares.'],
-    ['nyx', 'Nyx Arclight', 'High Elf Wizard 3 · Soulhacker', 'AC 13 · HP 17 · INT 16 · Spell Save DC 13', 'A contract-code prodigy whose stolen access key opens a locked Ethereal vault.'],
-    ['sable', 'Sable Thorn', 'Tiefling Warlock 3 · Corporate Defector', 'AC 14 · HP 24 · CHA 16 · Spell Save DC 13', 'Her Patron wants her back; the price of freedom is a single impossible job.'],
-    ['ash', 'Brother Ash', 'Dwarf Cleric 3 · Ripperdoc', 'AC 17 · HP 27 · WIS 16 · Spell Save DC 13', 'A street medic protecting patients whose debt makes them valuable to the Vanguard.'],
-    ['kestrel', 'Kestrel', 'Half-Orc Rogue 3 · Fixer', 'AC 15 · HP 24 · DEX 16 · Sneak Attack 2d6', 'A broker with one last favour owed by every faction in The Roots.'],
-    ['ilyra', 'Ilyra Moss', 'Wood Elf Ranger 3 · Bleed Scavenger', 'AC 15 · HP 25 · DEX 16 · Favored Terrain: The Bleed', 'She found a route through the storm that should not exist, and something followed her home.'],
-    ['jun', 'Jun Vale', 'Human Monk 3 · Faraday Order', 'AC 15 · HP 24 · DEX 16 · Ki 3', 'His Order sent him to silence a rogue signal that is scrambling corporate magic.']
-  ] },
-  { title: 'Example One-Shot Run', content: 'The Silence Between Contracts · a 3–4 hour mission for level-3 characters.', list: [
-    '**Hook:** Glitch hires the crew to retrieve a soul-share ledger before the Infernal Syndicate purges it.',
-    '**Scene 1 — The Roots (45 minutes):** Read aloud: static spills from Glitch’s bunker as the ledger’s last known signal burns across a projector. A DC 13 Persuasion, Deception, or 15 gp bribe gets the crew past Deep Network lookouts; failure starts a chase, not a fight.',
-    '**Scene 2 — The Ethereal (60 minutes):** Oil of Etherealness opens the route. In the floating contract archive, a DC 13 Arcana or Investigation check finds the ledger; two Gloom Stalkers can be evaded with DC 13 Stealth, fooled with a forged corporate order, or fought.',
-    '**Scene 3 — Neon-Hell (45 minutes):** Valerius blocks the exit with two Hex Blades. He wants the ledger intact; a DC 14 Persuasion check, evidence of his own debt, or surrendering a false copy can end the scene without combat.',
-    '**Rewards and finale:** The ledger is worth 75 gp to Echo-9, or earns The Disconnect’s protection. Giving it to Glitch exposes a Patron theft ring; selling it makes the Deep Network an ally; erasing it earns Valerius’s permanent attention.'
-  ] }
-]
-extraSections[0].cards = []
-const thaiOneShot = {
-  title: 'ตัวอย่างการเล่น One-Shot',
-  content: 'ความเงียบระหว่างสัญญา · ภารกิจ 3–4 ชั่วโมงสำหรับตัวละครเลเวล 5',
-  list: [
-    '**จุดเริ่มต้น:** Glitch จ้างทีมไปชิงสมุดบัญชีหุ้นวิญญาณก่อน Infernal Syndicate จะล้างข้อมูลทิ้ง',
-    '**ฉาก 1 — The Roots (45 นาที):** อ่านบรรยาย: สัญญาณรบกวนไหลออกจากบังเกอร์ของ Glitch ขณะที่ตำแหน่งสุดท้ายของสมุดบัญชีลุกไหม้บน Projector ใช้ Persuasion หรือ Deception DC 13 หรือจ่ายสินบน 15 gp เพื่อผ่านยาม Deep Network; ล้มเหลวจะเริ่มการไล่ล่า ไม่ใช่การต่อสู้',
-    '**ฉาก 2 — The Ethereal (60 นาที):** Oil of Etherealness เปิดเส้นทาง Arcana หรือ Investigation DC 13 พบสมุดบัญชีในคลังสัญญาลอยฟ้า Gloom Stalker สองตนหลบได้ด้วย Stealth DC 13 หลอกด้วยคำสั่งองค์กรปลอม หรือต่อสู้',
-    '**ฉาก 3 — Neon-Hell (45 นาที):** Valerius ปิดทางออกพร้อม Hex Blade สองคน เขาต้องการสมุดบัญชีที่สมบูรณ์ Persuasion DC 14 หลักฐานหนี้ของเขาเอง หรือสำเนาปลอม สามารถจบฉากโดยไม่สู้',
-    '**รางวัลและบทสรุป:** Echo-9 ซื้อสมุดบัญชีในราคา 75 gp หรือ The Disconnect มอบความคุ้มครองให้ มอบให้ Glitch จะเปิดโปงวงการขโมยหุ้นวิญญาณ ขายให้ Echo-9 ทำให้ Deep Network เป็นมิตร ลบทิ้งจะทำให้ Valerius ตามล่าคุณถาวร'
-  ]
+
+function CharacterSheet({ character: c, lang, printTarget, print }) {
+  const label = (en, th) => text(lang, en, th)
+  return <article id={'char-' + c.id} className={'character-sheet ' + (printTarget === 'char-' + c.id ? 'print-selected' : '')}>
+    <img src={art('preg-' + c.id)} alt={c.name} loading="lazy" width="320" height="320" />
+    <div className="character-body">
+      <div className="section-actions"><h3>{c.name}</h3><button className="print-button screen-only" onClick={() => print('char-' + c.id)}>{label('Print sheet', 'พิมพ์ชีต')}</button></div>
+      <p>{c.ancestry[lang]} · {c.klass} {c.level} · {c.subclass}</p><p className="muted">{c.role[lang]}</p>
+      <dl className="combat-grid">{[[label('Armor class', 'เกราะ'), c.ac], ['HP', c.hp], [label('Speed', 'ความเร็ว'), c.speed + ' ft'], [label('Hit Dice', 'ลูกเต๋าพลังชีวิต'), c.level + 'd' + c.hitDie], [label('Initiative', 'ลำดับการเล่น'), signed(abilityMod(c, 'DEX'))], [label('Proficiency', 'ความชำนาญ'), signed(proficiency(c))]].map(([name, value]) => <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>
+      <p className="ability-line">{abilities.map((a, i) => <span key={a}>{a} <strong>{c.scores[i]}</strong> ({signed(abilityMod(c, a))})</span>)}</p>
+      <p><strong>{label('Level 4 increase', 'เพิ่มตอนเลเวล 4')}:</strong> {c.asi} +2</p>
+      <p><strong>{label('Saving throws', 'เซฟ')}:</strong> {abilities.map(a => a + ' ' + signed(abilityMod(c, a) + (c.saves.includes(a) ? proficiency(c) : 0))).join(' · ')}</p>
+      <p><strong>{label('Proficient skills', 'ทักษะที่ชำนาญ')}:</strong> {Object.keys(c.skills).map(s => s + ' ' + signed(skillBonus(c, s))).join(' · ')}. {label('Other skills use the relevant ability modifier.', 'ทักษะอื่นใช้ตัวปรับความสามารถที่เกี่ยวข้อง')}</p>
+      <p><strong>{label('Passive Perception', 'การรับรู้ติดตัว')}:</strong> {10 + skillBonus(c, 'Perception')}</p>
+      <h4>{label('Attacks', 'การโจมตี')}</h4><ul>{c.attacks.map(a => <li key={a.name}><strong>{a.name}</strong> · {a.save ? a.save + ' DC ' + (8 + proficiency(c) + abilityMod(c, a.ability)) : signed(attackBonus(c, a))} · {a.dice}{!a.spell || a.addAbility ? signed(abilityMod(c, a.ability) + (a.extra || 0)) : ''} {a.type} · {a.range}</li>)}</ul>
+      {c.casting && <div className="spell-list"><h4>{label('Spellcasting', 'การร่ายเวท')}</h4>
+        <p>DC {spellDC(c)} · {label('Spell attack', 'โจมตีเวท')} {signed(proficiency(c) + abilityMod(c, c.casting.ability))} · {label('Slots by level', 'ช่องตามระดับ')}: {c.casting.slots.map((n, i) => (i + 1) + ': ' + n).join(' / ')}</p>
+        <p>{c.casting.pact ? label('Pact slots return on a short or long rest.', 'ช่อง Pact ฟื้นเมื่อพักสั้นหรือยาว') : label('Slots return on a long rest.', 'ช่องเวทฟื้นเมื่อพักยาว')}</p>
+        {[['cantrips', label('Cantrips', 'Cantrip')], ['prepared', label('Prepared', 'เตรียมแล้ว')], ['domain', label('Always prepared (domain)', 'เตรียมเสมอจาก Domain')], ['known', label('Known spells', 'เวทที่รู้')], ['book', label('Spellbook', 'สมุดเวท')], ['innate', label('Ancestry magic (no slot)', 'เวทเผ่าพันธุ์ ไม่ใช้ช่อง')]].map(([key, name]) => c.casting[key]?.length ? <p key={key}><strong>{name}:</strong> {c.casting[key].join(' · ')}</p> : null)}
+      </div>}
+      <h4>{label('Features & resources', 'ความสามารถและทรัพยากร')}</h4><p>{c.features[lang]}</p>
+      <h4>{label('Equipment & proficiencies', 'อุปกรณ์และความชำนาญ')}</h4><p>{c.equipment[lang]}</p>
+      <p><strong>{label('Starting money / soul', 'เงินและวิญญาณเริ่มต้น')}:</strong> 25 gp · {c.soulcoin || 0} SC · {c.pledge || 0}% {label('pledged', 'ที่ผูก')}</p>
+      <h4>{label('Your neighborhood ties', 'สายสัมพันธ์ในชุมชน')}</h4><p>{c.story[lang]}</p>
+      <h4>{label('A useful first turn', 'ตัวอย่างเทิร์นแรก')}</h4><p>{c.turn[lang]}</p>
+      <p className="write-in">{label('HP now: ____  Hit Dice left: ____  Slots / Ki: ____  Conditions: ____', 'HP ปัจจุบัน: ____  Hit Dice เหลือ: ____  ช่องเวท / Ki: ____  สภาวะ: ____')}</p>
+    </div>
+  </article>
 }
-const thaiNpcs = [
-  { title: '"Glitch" — Soulhacker Fixer', art: 'glitch', content: 'ผู้ติดต่อสุดเพี้ยนของ Deep Network ที่ทำงานจากบังเกอร์สัญญาณขาดหายใน The Roots ขาย Projector เถื่อนและ gold comm-stone' },
-  { title: 'Exec-Commander Valerius — Infernal Syndicate', art: 'valerius', content: 'ผู้บังคับบัญชา Hex Blade ผู้โหดเหี้ยม มีหน้าที่ไล่ล่าสมาชิก The Disconnect' },
-  { title: 'Mother Willow — Archfey Conglomerate', art: 'willow', content: 'ซีอีโอผู้เย้ายวนของบริษัทยาสาขาใหญ่ที่สุด ซ่อนร่าง Fey ที่น่าสะพรึงไว้ใต้มนตร์ภาพลวงตา' },
-  { title: 'Brother Kael — Ripperdoc', art: 'kael', content: 'Cleric แห่ง Lathander ผู้ดูแลคลินิกใต้ดิน รักษา Null-Punk ด้วยเวทศักดิ์สิทธิ์ไร้ร่องรอย แลกกับ GP เท่านั้น' },
-  { title: 'Aurelia Voss — Celestial Vanguard', art: 'voss', content: 'ผู้ตรวจสอบหนี้ผู้พิถีพิถัน ที่เปลี่ยนสมุดบัญชีหุ้นวิญญาณให้เป็นอาวุธ หรือลบหนี้ให้ในราคาที่เหมาะสม' },
-  { title: 'Echo-9 — Deep Network Broker', art: 'echo9', content: 'นายหน้าข้อมูลสวมหน้ากาก ผู้ค้าความลับ ความทรงจำที่ขโมยมา และชื่อจริงที่ซ่อนอยู่ในสัญญาองค์กร' },
-  { title: 'Mara Flint — No-Coin Smuggler', art: 'mara', content: 'นักเก็บกู้แห่ง The Bleed ผู้ลักลอบพาคนและของเถื่อนผ่านจุดบอดของโดมโดยไม่แตะต้อง SoulCoin' }
-]
 
 function App() {
-  const [lang, setLang] = useState('th')
-  const [activeIdx, setActiveIdx] = useState(0)
-  const [navOpen, setNavOpen] = useState(false)
-  const sectionRefs = useRef([])
-
-  const content = data[lang]
-  const sections = [...content.sections.slice(0, 6), ...extraSections.map((section, idx) => lang === 'th' && idx === 1 ? thaiOneShot : section)]
-  const subsections = (section, idx) => {
-    if (lang === 'th' && idx === 4) return thaiNpcs
-    if (lang === 'th' && idx === 1) return section.subsections.map((sub, i) => ({ ...sub, title: ['Corporate Drone', 'Ethereal Soulhacker', 'Bleed Scavenger'][i] }))
-    return section.subsections
-  }
-
-  const scrollTo = (idx) => {
-    sectionRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    setActiveIdx(idx)
-    setNavOpen(false)
-  }
+  const [lang, setLang] = useState('th'), [dm, setDm] = useState(false), [navOpen, setNavOpen] = useState(false)
+  const [active, setActive] = useState('start'), [requested, setRequested] = useState(window.location.hash.slice(1)), [printTarget, setPrintTarget] = useState(null)
+  const navButton = useRef(null)
+  const label = (en, th) => text(lang, en, th)
+  const visible = groups.flatMap(g => sections.filter(s => s.group === g.id && (!s.dm || dm)))
+  const needsDm = !dm && sections.some(s => s.dm && (requested === s.id || requested.startsWith(s.id + '-')))
 
   useEffect(() => {
     document.documentElement.lang = lang
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = sectionRefs.current.indexOf(entry.target)
-            if (idx !== -1) setActiveIdx(idx)
-          }
-        })
-      },
-      { rootMargin: '-30% 0px -60% 0px' }
-    )
-    sectionRefs.current.forEach((el) => el && observer.observe(el))
+    document.title = text(lang, 'Soulpunk 1577 · Start in The Roots', 'Soulpunk 1577 · เริ่มต้นใน The Roots')
+  }, [lang])
+  useEffect(() => {
+    const followHash = () => {
+      const id = window.location.hash.slice(1)
+      setRequested(id)
+      const node = document.getElementById(id)
+      if (node) { setActive(node.closest('.playbook-section')?.id || 'start'); node.scrollIntoView(); if (node.hasAttribute('tabindex')) node.focus({ preventScroll: true }) }
+    }
+    window.addEventListener('hashchange', followHash)
+    const frame = requestAnimationFrame(followHash)
+    return () => { window.removeEventListener('hashchange', followHash); cancelAnimationFrame(frame) }
+  }, [dm])
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => { for (const e of entries) if (e.isIntersecting) setActive(e.target.id) }, { rootMargin: '-10% 0px -75% 0px' })
+    document.querySelectorAll('.playbook-section').forEach(node => observer.observe(node))
     return () => observer.disconnect()
-  }, [content])
-
-  return (
-    <div className={`layout ${lang === 'th' ? 'lang-th' : ''}`}>
-      <a className="skip-link" href="#guide-content">Skip to guide</a>
-      {/* Sidebar */}
-      <nav id="guide-navigation" className={`sidebar ${navOpen ? 'open' : ''}`} aria-label="Campaign guide sections">
-        <div className="sidebar-brand">
-          <span className="brand-name">SOULPUNK</span>
-          <span className="brand-year">1577</span>
-          <span className="brand-edition">Eden field guide</span>
-        </div>
-        <ul className="nav-list">
-          {sections.map((sec, i) => (
-            <li key={i}>
-              <button
-                className={`nav-item ${activeIdx === i ? 'active' : ''}`}
-                onClick={() => scrollTo(i)}
-              >
-                <span className="nav-number">{String(i + 1).padStart(2, '0')}</span>
-                <span className="nav-label">{sec.title}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <button
-          className="lang-toggle"
-          onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
-          aria-label={lang === 'en' ? 'Switch to Thai' : 'Switch to English'}
-        >
-          {lang === 'en' ? 'ภาษาไทย' : 'English'}
-        </button>
-      </nav>
-
-      {/* Mobile header */}
-      <header className="mobile-header">
-        <button
-          className="hamburger"
-          onClick={() => setNavOpen(!navOpen)}
-          aria-label="Toggle menu"
-          aria-expanded={navOpen}
-          aria-controls="guide-navigation"
-        >
-          <span /><span /><span />
-        </button>
-        <span className="mobile-title">SOULPUNK <em>1577</em></span>
-        <button
-          className="lang-toggle-mobile"
-          onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
-          aria-label={lang === 'en' ? 'Switch to Thai' : 'Switch to English'}
-        >
-          {lang === 'en' ? 'TH' : 'EN'}
-        </button>
-      </header>
-
-      {navOpen && <div className="nav-overlay" onClick={() => setNavOpen(false)} />}
-
-      {/* Main content */}
-      <main className="content" id="guide-content">
-        {/* Hero */}
-        <div className="hero">
-          <p className="hero-era">THE CITY OF EDEN · 1577 DR</p>
-          <h1 className="hero-title">{content.title}</h1>
-          <p className="hero-intro">{content.intro}</p>
-          <img
-            className="hero-art"
-            src={edenHero}
-            alt={lang === 'en' ? 'Eden, a magical city enclosed beneath a vast dome' : 'นครเอเดนใต้โดมเวทมนตร์ขนาดมหึมา'}
-          />
-        </div>
-
-        {/* Sections */}
-        {sections.map((section, idx) => (
-          <section
-            key={idx}
-            className="playbook-section"
-            ref={(el) => (sectionRefs.current[idx] = el)}
-          >
-            <div className="section-header">
-              <span className="section-number">{String(idx + 1).padStart(2, '0')}</span>
-              <h2>{section.title}</h2>
-            </div>
-
-            {section.content && <p className="section-lead">{section.content}</p>}
-
-            {section.cards && idx !== 6 && <div className="dossier-list">
-              {section.cards.map(([image, name, role, sheet, background]) => (
-                <article className="dossier-card" key={name}>
-                  <img src={art[image]} alt={name} />
-                  <div><h3>{name}</h3><p className="dossier-role">{role}</p><p className="dossier-sheet">{sheet}</p><p>{background}</p></div>
-                </article>
-              ))}
-            </div>}
-            {idx === 6 && <div className="sheet-list">{characterSheets.map(([image, name, , background, abilities, , saves, skills, , , equipment, story]) => (
-              <article className="character-sheet" key={name}><img src={art[image]} alt={name} /><div><h3>{name}</h3><p className="dossier-role">{levelFive[name].klass} · {background}</p><p><strong>Abilities:</strong> {abilities}</p><p><strong>Combat:</strong> {levelFive[name].combat}</p><p><strong>Saving Throws:</strong> {saves}</p><p><strong>Skills:</strong> {skills}</p><p><strong>Attacks:</strong> {levelFive[name].attacks}</p><p><strong>Features:</strong> {levelFive[name].features}</p><p><strong>Equipment:</strong> {equipment}</p><p><strong>Character:</strong> {story}</p></div></article>
-            ))}</div>}
-
-            {idx === 0 && (
-              <figure className="setting-art">
-                <img
-                  src={soulcoinContract}
-                  alt={lang === 'en' ? 'A SoulCoin beside a torn soul contract' : 'เหรียญ SoulCoin ข้างสัญญาขายวิญญาณที่ฉีกขาด'}
-                />
-                <figcaption>{lang === 'en' ? 'A SoulCoin is a contract made spendable.' : 'SoulCoin คือสัญญาที่ถูกทำให้ใช้จ่ายได้'}</figcaption>
-              </figure>
-            )}
-
-            {section.list && !(lang === 'th' && idx === 4) && (
-              <ul className="entry-list">
-                {section.list.map((item, i) => (
-                  <li key={i}>
-                    <ReactMarkdown>{item}</ReactMarkdown>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {subsections(section, idx)?.map((sub, sidx) => (
-              <div key={sidx} className={`subsection ${idx === 4 ? 'npc-card' : ''}`}>
-                <h3>{sub.title}</h3>
-                {sub.content && <p>{sub.content}</p>}
-                {idx === 4 && <p className="npc-facts"><strong>Faction:</strong> {npcDetails[sub.art][0]} &nbsp; <strong>Race:</strong> {npcDetails[sub.art][2]} &nbsp; <strong>Age:</strong> {npcDetails[sub.art][1]}</p>}
-                {sub.art && (
-                  <figure className="setting-art location-art">
-                    <img src={art[sub.art]} alt={sub.title} />
-                  </figure>
-                )}
-                {sub.art === 'ethereal' && <p><strong>Blink (3rd-level spell):</strong> {lang === 'en' ? 'Wizards use it for quick, unstable Ethereal access. It returns them near their entry point, so Oil of Etherealness remains the reliable route.' : 'Wizard ใช้เข้า Ethereal แบบรวดเร็วแต่ไม่เสถียร และจะกลับมาใกล้จุดที่เข้าไป จึงยังต้องใช้ Oil of Etherealness สำหรับเส้นทางที่แน่นอน'}</p>}
-                {sub.art === 'ethereal' && lang === 'th' && <p><strong>Oil of Etherealness (Uncommon):</strong> ใช้เข้าและออกจาก The Ethereal ได้</p>}
-                {sub.list && (
-                  <ul className="entry-list">
-                    {sub.list.map((item, i) => (
-                      <li key={i}>
-                        <ReactMarkdown>{item}</ReactMarkdown>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
-          </section>
-        ))}
-
-        <footer>
-          <p>Soulpunk 1577 · D&amp;D 5e (2014) Campaign Setting</p>
-        </footer>
-      </main>
-    </div>
-  )
+  }, [dm])
+  useEffect(() => {
+    if (!printTarget) return
+    const done = () => setPrintTarget(null)
+    window.addEventListener('afterprint', done)
+    const frame = requestAnimationFrame(() => window.print())
+    return () => { window.removeEventListener('afterprint', done); cancelAnimationFrame(frame) }
+  }, [printTarget])
+  const toggleDm = () => {
+    if (dm && sections.some(s => s.id === active && s.dm)) { window.history.replaceState(null, '', '#start'); setRequested('start'); setActive('start') }
+    setDm(!dm)
+  }
+  const switchLanguage = () => { setLang(lang === 'en' ? 'th' : 'en'); requestAnimationFrame(() => document.getElementById(active)?.scrollIntoView()) }
+  const closeNav = () => { setNavOpen(false); navButton.current?.focus() }
+  return <div className={'layout lang-' + lang} data-print-target={printTarget || undefined}>
+    <a className="skip-link" href="#guide-content">{label('Skip to guide', 'ข้ามไปคู่มือ')}</a>
+    <header className="mobile-header"><button ref={navButton} aria-expanded={navOpen} aria-controls="guide-navigation" onClick={() => setNavOpen(!navOpen)}>{label('Menu', 'เมนู')}</button><span>SOULPUNK <em>1577</em></span><button onClick={switchLanguage} aria-label={label('Switch to Thai', 'เปลี่ยนเป็นภาษาอังกฤษ')}>{lang === 'en' ? 'TH' : 'EN'}</button></header>
+    <nav id="guide-navigation" className={'sidebar ' + (navOpen ? 'open' : '')} aria-label={label('Campaign guide', 'คู่มือแคมเปญ')} onKeyDown={e => { if (e.key === 'Escape') closeNav() }}>
+      <div className="sidebar-brand"><span className="brand-name">SOULPUNK</span><span className="brand-year">1577</span><span className="brand-edition">{label('An Eden field guide', 'คู่มือภาคสนาม Eden')}</span></div>
+      <button className="close-nav" onClick={closeNav}>{label('Close menu', 'ปิดเมนู')}</button>
+      {groups.map(g => <div className="nav-group" key={g.id}><p>{g.title[lang]}</p><ul className="nav-list">{visible.filter(s => s.group === g.id).map(s => <li key={s.id}><a href={'#' + s.id} className={'nav-item ' + (active === s.id ? 'active' : '')} aria-current={active === s.id ? 'location' : undefined} onClick={() => setNavOpen(false)}>{s.title[lang]}</a></li>)}</ul>{g.id === 'campaign' && !dm && <button className="dm-nav" onClick={() => { toggleDm(); setNavOpen(false) }}>{label('Show DM content', 'แสดงเนื้อหา DM')}</button>}</div>)}
+      <button className="lang-toggle" onClick={switchLanguage}>{lang === 'en' ? 'ภาษาไทย' : 'English'}</button>
+    </nav>
+    {navOpen && <button tabIndex="-1" className="nav-overlay" aria-label={label('Close navigation', 'ปิดเมนูนำทาง')} onClick={closeNav} />}
+    <main className="content" id="guide-content" tabIndex="-1">
+      <div className="hero"><p className="hero-era">EDEN · 1577 DR</p><h1>{label('Start in The Roots', 'เริ่มต้นใน The Roots')}</h1><p className="hero-intro">{label('A neighborhood worth fighting for. Three connected adventures in a city that sells paradise one soul at a time.', 'ชุมชนที่ควรค่าแก่การปกป้อง สามการผจญภัยต่อเนื่อง ในนครที่ขายสรวงสวรรค์แลกวิญญาณทีละดวง')}</p><p className="campaign-meta">{label('4 players · Level 5 · D&D 2014 · 3 sessions', 'ผู้เล่น 4 คน · เลเวล 5 · D&D 2014 · 3 ตอน')}</p><img className="hero-art" src={art('eden-hero')} alt={label('Eden beneath its magical dome', 'Eden ใต้โดมเวทมนตร์')} /></div>
+      <div className="reading-tools screen-only"><button onClick={toggleDm} aria-pressed={dm}>{dm ? label('Hide DM content', 'ซ่อนเนื้อหา DM') : label('Show DM content', 'แสดงเนื้อหา DM')}</button><button onClick={() => setPrintTarget('all')}>{label('Print current view', 'พิมพ์มุมมองปัจจุบัน')}</button><p>{dm ? label('DM view includes spoilers. This controls reading, not access security.', 'มุมมอง DM มีข้อมูลลับ ช่วยเลี่ยงสปอยล์ ไม่ใช่ระบบจำกัดสิทธิ์') : label('Player view · adventure secrets are hidden.', 'มุมมองผู้เล่น · ซ่อนความลับการผจญภัย')}</p></div>
+      {needsDm && <p role="status" className="spoiler-notice">{label('That link leads to DM content. Choose “Show DM content” above to read it.', 'ลิงก์นั้นเป็นเนื้อหา DM เลือก “แสดงเนื้อหา DM” ด้านบนเพื่ออ่าน')}</p>}
+      {visible.map(s => <section id={s.id} tabIndex="-1" key={s.id} className={'playbook-section ' + (s.kind === 'characters' ? 'characters-container ' : '') + (printTarget === s.id || (s.kind === 'characters' && printTarget?.startsWith('char-')) ? 'print-selected' : '')}>
+        <div className="section-header"><p className="eyebrow">{groups.find(g => g.id === s.group).title[lang]}{s.dm ? ' · DM' : ''}</p><div className="section-actions"><h2>{s.title[lang]}</h2><a className="permalink screen-only" href={'#' + s.id} aria-label={label('Link to ', 'ลิงก์ไป ') + s.title[lang]}>#</a></div><div className="section-actions screen-only"><button className="print-button" onClick={() => setPrintTarget(s.id)}>{label('Print section', 'พิมพ์ส่วนนี้')}</button>{getHandout(s.body[lang]) && <button className="print-button" onClick={() => setPrintTarget(s.id + '-handout')}>{label('Print player handout', 'พิมพ์เอกสารผู้เล่น')}</button>}</div></div>
+        {s.map && <FieldMap mapKey={s.map} lang={lang} dm={dm} />}
+        {s.id === 'roots' && <img className="wide-art" src={art('eden-location')} alt={label('Eden’s layered districts', 'เขตซ้อนชั้นของ Eden')} loading="lazy" />}
+        {s.id === 'people' && <div className="portrait-strip">{[['glitch', 'Glitch'], ['valerius', 'Valerius'], ['willow', 'Mother Willow'], ['kael', 'Kael'], ['voss', 'Voss'], ['echo9', 'Echo-9'], ['mara', 'Mara']].map(([key, name]) => <figure key={key}><img src={art('npc-' + key + '-v2')} alt={name} loading="lazy" width="160" height="160" /><figcaption>{name}</figcaption></figure>)}</div>}
+        <Markdown>{s.body[lang]}</Markdown>
+        {s.kind === 'contracts' && <div className="contract-list">{contracts.map(c => <article key={c.id} className="contract"><h3>{c.name[lang]}</h3><p>{c.pledge}% {label('pledged', 'ที่ผูก')} · {c.stipend} SC {label('paid once', 'จ่ายครั้งเดียว')}</p><p>{c.duty[lang]}</p><p>{label('Release', 'ปลดสัญญา')}: {c.release} SC {label('or service for', 'หรือทำงานครบ')} {c.weeks} {label('weeks', 'สัปดาห์')}</p><p className="write-in">{label('Signed: ____  Due: ____  Balance: ____  Witness: ____', 'เซ็น: ____  กำหนด: ____  คงค้าง: ____  พยาน: ____')}</p></article>)}</div>}
+        {s.kind === 'characters' && <div className="sheet-list">{characters.map(c => <CharacterSheet key={c.id} character={c} lang={lang} printTarget={printTarget} print={setPrintTarget} />)}</div>}
+      </section>)}
+      {dm && sections.filter(s => getHandout(s.body[lang])).map(s => <article key={s.id} className={'handout-print ' + (printTarget === s.id + '-handout' ? 'print-selected' : '')}><h1>{label('Soulpunk · Player handout', 'Soulpunk · เอกสารผู้เล่น')}</h1><h2>{s.title[lang]}</h2><Markdown>{getHandout(s.body[lang])}</Markdown>{s.map && <FieldMap mapKey={s.map} lang={lang} dm={false} publicOnly />}</article>)}
+      <footer>Soulpunk 1577 · D&amp;D 5e (2014)<br />{label('Homebrew starter · balance has not been table-playtested.', 'ชุดเริ่มต้นโฮมบรูว์ · สมดุลยังไม่ผ่านการเล่นทดสอบบนโต๊ะ')}</footer>
+    </main>
+  </div>
 }
-
 export default App

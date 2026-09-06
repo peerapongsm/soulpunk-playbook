@@ -11,6 +11,9 @@ export default [
       globals: {
         document: 'readonly',
         IntersectionObserver: 'readonly',
+        window: 'readonly',
+        requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
       },
     },
   },
